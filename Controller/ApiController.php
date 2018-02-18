@@ -12,15 +12,17 @@ class ApiController
     
     if($_GET['get'] == 'statut'){
       $perso = $userManager->getUser();
-      /*
-      return array(
-        'nom' => ,
-        'position' => ,
-        'niveau' => ,
-        'experience' => ,
-        'degats' => ,
-        'force' => ,
-      );*/
+      $force_perso = $perso->getNiveau()*10 - floor( ($perso->getDegats())/10 );
+      $data =  array(
+        'nom' => $perso->getNom(),
+        'position' => $perso->getLocalisationX().','.$perso->getLocalisationY(),
+        'niveau' => $perso->getNiveau(),
+        'experience' => $perso->getExperience(),
+        'degats' => $perso->getDegats(),
+        'force' => $force_perso,
+      );
+      
+      echo json_encode($data);
     }
   }
 }

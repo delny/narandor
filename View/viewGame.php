@@ -14,7 +14,7 @@ $titre = WEBSITE_TITLE.' -- Accueil';
       <div class="dbcontent">
         <fieldset>
           <legend>Mes informations</legend>
-          <div id="mystatut">
+          <div class="mystatut">
             <div>Nom : {{ user.nom}}</div>
             <div>Position {{ user.position }}</div>
             <div class="infosname">Niveau</div><div class="barreprogression"><div style="width:{{ user.niveau }}0%">{{ user.niveau }}/10</div></div>
