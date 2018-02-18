@@ -29,18 +29,18 @@ Class PersoManager extends DatabaseManager
 	{
 		$sql = $this->_bdd->prepare('INSERT INTO perso (nom,password,etat,localisation,localisation_x,localisation_y, direction, niveau, experience, degats,typeperso,special) 
 			VALUES (:nom, :password, :etat,:localisation,:localisation_x,:localisation_y, :dir, :niveau, :experience, :degats,:typeperso,:special) ');
-		$sql->bindValue(':nom', $perso->nom() );
-		$sql->bindValue(':password', $perso->password() );
-		$sql->bindValue(':etat', $perso->etat() );
-		$sql->bindValue(':localisation', $perso->localisation() );
-		$sql->bindValue(':localisation_x', $perso->localisation_x() );
-		$sql->bindValue(':localisation_y', $perso->localisation_y() );
-		$sql->bindValue(':dir', $perso->direction() );
-		$sql->bindValue(':niveau', $perso->niveau() );
-		$sql->bindValue(':experience', $perso->experience() );
-		$sql->bindValue(':degats', $perso->degats() );
-		$sql->bindValue(':typeperso', $perso->typeperso() );
-		$sql->bindValue(':special', $perso->special() );
+		$sql->bindValue(':nom', $perso->getNom() );
+		$sql->bindValue(':password', $perso->getPassword() );
+		$sql->bindValue(':etat', $perso->getEtat() );
+		$sql->bindValue(':localisation', $perso->getLocalisation() );
+		$sql->bindValue(':localisation_x', $perso->getLocalisationX() );
+		$sql->bindValue(':localisation_y', $perso->getLocalisationY() );
+		$sql->bindValue(':dir', $perso->getDirection() );
+		$sql->bindValue(':niveau', $perso->getNiveau() );
+		$sql->bindValue(':experience', $perso->getExperience() );
+		$sql->bindValue(':degats', $perso->getDegats() );
+		$sql->bindValue(':typeperso', $perso->getTypeperso() );
+		$sql->bindValue(':special', $perso->getSpecial() );
 		$sql->execute();
 		
 		$perso->hydrate(['id' => $this->_bdd->lastInsertId()]);
@@ -54,26 +54,26 @@ Class PersoManager extends DatabaseManager
 			UPDATE perso SET nom = :nom, password = :password, etat = :etat, localisation = :localisation, localisation_x = :localisation_x, localisation_y = :localisation_y, 
 			direction = :dir, niveau = :niveau, experience = :experience, degats = :degats , typeperso = :typeperso, special = :special
 			WHERE id = :id');
-		$sql->bindValue(':id', $perso->id() );
-		$sql->bindValue(':nom', $perso->nom() );
-		$sql->bindValue(':password', $perso->password() );
-		$sql->bindValue(':etat', $perso->etat() );
-		$sql->bindValue(':localisation', $perso->localisation() );
-		$sql->bindValue(':localisation_x', $perso->localisation_x() );
-		$sql->bindValue(':localisation_y', $perso->localisation_y() );
-		$sql->bindValue(':dir', $perso->direction() );
-		$sql->bindValue(':niveau', $perso->niveau() );
-		$sql->bindValue(':experience', $perso->experience() );
-		$sql->bindValue(':degats', $perso->degats() );
-		$sql->bindValue(':typeperso', $perso->typeperso() );
-		$sql->bindValue(':special', $perso->special() );
+		$sql->bindValue(':id', $perso->getId() );
+		$sql->bindValue(':nom', $perso->getNom() );
+		$sql->bindValue(':password', $perso->getPassword() );
+		$sql->bindValue(':etat', $perso->getEtat() );
+		$sql->bindValue(':localisation', $perso->getLocalisation() );
+		$sql->bindValue(':localisation_x', $perso->getLocalisationX() );
+		$sql->bindValue(':localisation_y', $perso->getLocalisationY() );
+		$sql->bindValue(':dir', $perso->getDirection() );
+		$sql->bindValue(':niveau', $perso->getNiveau() );
+		$sql->bindValue(':experience', $perso->getExperience() );
+		$sql->bindValue(':degats', $perso->getDegats() );
+		$sql->bindValue(':typeperso', $perso->getTypeperso() );
+		$sql->bindValue(':special', $perso->getSpecial() );
 		$sql->execute();
 	}
 	
 	public function delete(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('DELETE FROM perso WHERE id = :id');
-		$sql->bindValue(':id', $perso->id());
+		$sql->bindValue(':id', $perso->getId());
 		$sql->execute();
 	}
 	
@@ -97,22 +97,24 @@ Class PersoManager extends DatabaseManager
 			switch($donnees['typeperso'])
 			{
 				case 0 :
-				return new Perso($donnees);
+				  $perso = new Perso($donnees);
 				break;
 				case 1 :
-				return new Guerrier($donnees);
+				  $perso = new Guerrier($donnees);
 				break;
 				case 2 :
-				return new Magicien($donnees);
+          $perso = new Magicien($donnees);
 				break;
 				default:
-				return new Perso($donnees);	
+          $perso = new Perso($donnees);
 			}
 		}
 		else
 		{
 			return FALSE;
 		}
+		$perso->setInventaire($this->getinventaire($perso));
+		return $perso;
 	}
 	
 	public function getpersoscarte($localisation,$carte_x,$carte_y)
@@ -142,25 +144,25 @@ Class PersoManager extends DatabaseManager
 	// recuperer le joueur en face si il existe
 	public function getadversaire(Perso $perso)
 	{
-		$direction_perso = $perso->direction();
-		$localisation = $perso->localisation();
+		$direction_perso = $perso->getDirection();
+		$localisation = $perso->getLocalisation();
 		switch($direction_perso)
 		{
 			case "haut" :
-				$x = $perso->localisation_x();
-				$y = $perso->localisation_y() - 1 ;
+				$x = $perso->getLocalisationX();
+				$y = $perso->getLocalisationY() - 1 ;
 				break;
 			case "gauche" :
-				$x = $perso->localisation_x() - 1;
-				$y = $perso->localisation_y();
+				$x = $perso->getLocalisationX() - 1;
+				$y = $perso->getLocalisationY();
 				break;
 			case "droite" :
-				$x = $perso->localisation_x() + 1 ;
-				$y = $perso->localisation_y();
+				$x = $perso->getLocalisationX() + 1 ;
+				$y = $perso->getLocalisationY();
 				break;
 			case "bas" : 
-				$y = $perso->localisation_y() + 1 ;
-				$x = $perso->localisation_x();
+				$y = $perso->getLocalisationX() + 1 ;
+				$x = $perso->getLocalisationY();
 				break;
 			default : 
 				$x = 0;
@@ -201,7 +203,7 @@ Class PersoManager extends DatabaseManager
 	}
 	
 	// determiner si nouvelle place prise
-	public function placeprise($localisation,$x, $y)
+	public function placeprise($localisation = 'C',$x, $y)
 	{
 		$coord = ''.$x.','.$y.'';
 		
@@ -423,32 +425,32 @@ Class PersoManager extends DatabaseManager
 	// se déplacer
 	public function sedeplacer(Perso $perso,$direction)
 	{
-		$x = $perso->localisation_x();
-		$y = $perso->localisation_y();
+		$x = $perso->getLocalisationX();
+		$y = $perso->getLocalisationY();
 		switch($direction)
 		{
 			case "haut" :
-				$new_x = $perso->localisation_x();
-				$new_y = $perso->localisation_y() - 1 ;
+				$new_x = $perso->getLocalisationX();
+				$new_y = $perso->getLocalisationY() - 1 ;
 				break;
 			case "gauche" :
-				$new_x = $perso->localisation_x() - 1;
-				$new_y = $perso->localisation_y();
+				$new_x = $perso->getLocalisationX() - 1;
+				$new_y = $perso->getLocalisationY();
 				break;
 			case "droite" :
-				$new_x = $perso->localisation_x() + 1 ;
-				$new_y = $perso->localisation_y();
+				$new_x = $perso->getLocalisationX() + 1 ;
+				$new_y = $perso->getLocalisationY();
 				break;
 			case "bas" : 
-				$new_y = $perso->localisation_y() + 1 ;
-				$new_x = $perso->localisation_x();
+				$new_x = $perso->getLocalisationX();
+				$new_y = $perso->getLocalisationY() + 1;
 				break;
 			default : 
-				$new_x = $perso->localisation_x();
-				$new_y = $perso->localisation_y();
+				$new_x = $perso->getLocalisationX();
+				$new_y = $perso->getLocalisationY();
 		}
 		
-		$localisation = $perso->localisation();
+		$localisation = $perso->getLocalisation();
 		// verif des nouvelles coord
 		if ($localisation=='C' AND ($new_x < 1 OR $new_y < 1 OR $new_x > 98 OR $new_y > 98))
 		{
@@ -545,10 +547,10 @@ Class PersoManager extends DatabaseManager
 	
 	public function ispuit(Perso $perso)
 	{
-		switch($perso->direction())
+		switch($perso->getDirection())
 		{
 			case "haut" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==25 AND $perso->localisation_y()==55 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==25 AND $perso->getLocalisationY()==55 )
 				{
 					return TRUE;
 				}
@@ -558,7 +560,7 @@ Class PersoManager extends DatabaseManager
 				}
 				break;
 			case "gauche" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==26 AND $perso->localisation_y()==54 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==26 AND $perso->getLocalisationY()==54 )
 				{
 					return TRUE;
 				}
@@ -568,7 +570,7 @@ Class PersoManager extends DatabaseManager
 				}
 				break;
 			case "droite" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==24 AND $perso->localisation_y()==54 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==24 AND $perso->getLocalisationY()==54 )
 				{
 					return TRUE;
 				}
@@ -578,7 +580,7 @@ Class PersoManager extends DatabaseManager
 				}
 				break;
 			case "bas" : 
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==25 AND $perso->localisation_y()==53 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==25 AND $perso->getLocalisationY()==53 )
 				{
 					return TRUE;
 				}
@@ -594,10 +596,10 @@ Class PersoManager extends DatabaseManager
 	
 	public function iscoffre(Perso $perso)
 	{
-		switch($perso->direction())
+		switch($perso->getDirection())
 		{
 			case "haut" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==44 AND $perso->localisation_y()==24 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==44 AND $perso->getLocalisationY()==24 )
 				{
 					return TRUE;
 				}
@@ -607,7 +609,7 @@ Class PersoManager extends DatabaseManager
 				}
 				break;
 			case "gauche" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==45 AND $perso->localisation_y()==23 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==45 AND $perso->getLocalisationY()==23 )
 				{
 					return TRUE;
 				}
@@ -617,7 +619,7 @@ Class PersoManager extends DatabaseManager
 				}
 				break;
 			case "droite" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==43 AND $perso->localisation_y()==23 )
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==43 AND $perso->getLocalisationY()==23 )
 				{
 					return TRUE;
 				}
@@ -636,27 +638,27 @@ Class PersoManager extends DatabaseManager
 	
 	public function issage(Perso $perso)
 	{
-		switch($perso->direction())
+		switch($perso->getDirection())
 		{
 			case "haut" :
 				return FALSE;
 				break;
 			case "gauche" :
-				if ($perso->localisation()=='M' AND $perso->localisation_x()==2 AND $perso->localisation_y()==1 )//sorcier dans maison
+				if ($perso->getLocalisation()=='M' AND $perso->getLocalisationX()==2 AND $perso->getLocalisationY()==1 )//sorcier dans maison
 				{
-					if($perso->niveau()==1)
+					if($perso->getNiveau()==1)
 					{
 						return 40;
 					}
-					elseif($perso->typeperso()==0)
+					elseif($perso->getTypeperso()==0)
 					{
 						return 41; //donne globe magique
 					}
-					elseif($perso->typeperso()==1)
+					elseif($perso->getTypeperso()==1)
 					{
 						return 42;
 					}
-					elseif($perso->typeperso()==2)
+					elseif($perso->getTypeperso()==2)
 					{
 						return 43;
 					}
@@ -671,13 +673,13 @@ Class PersoManager extends DatabaseManager
 				}
 				break;
 			case "droite" :
-				if ($perso->localisation()=='C' AND $perso->localisation_x()==7 AND $perso->localisation_y()==1 ) // sage debut
+				if ($perso->getLocalisation()=='C' AND $perso->getLocalisationX()==7 AND $perso->getLocalisationY()==1 ) // sage debut
 				{
-					if($perso->niveau()==1 AND $perso->degats()>0 )
+					if($perso->getNiveau()==1 AND $perso->getDegats()>0 )
 					{
 						return 10; //soigne
 					}
-					elseif($perso->niveau()==1 AND $perso->degats()==0 )
+					elseif($perso->getNiveau()==1 AND $perso->getDegats()==0 )
 					{
 						return 11; // pas de degats
 					}
@@ -710,7 +712,7 @@ Class PersoManager extends DatabaseManager
 		foreach ($persosendormis as $persoendormi)
 		{
 			$dormeur = new Perso($persoendormi);
-			$etat = $dormeur->etat();
+			$etat = $dormeur->getEtat();
 			$tab_etat = explode(";",$etat);
 			
 			if (time() - $tab_etat[1] > 0)
@@ -728,7 +730,7 @@ Class PersoManager extends DatabaseManager
 	public function getobjetsjoueur(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('SELECT inventaire.id as idobjetunique,idperso,idobjet,nom FROM inventaire JOIN objets ON idobjet=objets.id WHERE idperso = :idperso');
-		$sql->bindValue(':idperso',$perso->id());
+		$sql->bindValue(':idperso',$perso->getId());
 		$sql->execute();
 		
 		return $sql->fetchAll();
@@ -737,7 +739,7 @@ Class PersoManager extends DatabaseManager
 	public function getinventaire(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('SELECT idobjet FROM inventaire WHERE idperso = :idperso');
-		$sql->bindValue(':idperso',$perso->id());
+		$sql->bindValue(':idperso',$perso->getId());
 		$sql->execute();
 		
 		$tab_inventaire = [];
@@ -761,7 +763,7 @@ Class PersoManager extends DatabaseManager
 	public function addobjet(Perso $perso,$idobjet)
 	{
 		$sql = $this->_bdd->prepare('INSERT INTO inventaire (idperso,idobjet) VALUES (:idperso,:idobjet)');
-		$sql->bindValue(':idperso',$perso->id());
+		$sql->bindValue(':idperso',$perso->getId());
 		$sql->bindValue(':idobjet',$idobjet);
 		$sql->execute();
 	}
@@ -770,7 +772,7 @@ Class PersoManager extends DatabaseManager
 	{
 		$sql = $this->_bdd->prepare('SELECT idperso,idobjet FROM inventaire WHERE id = :idobjetunique AND idperso = :idperso');
 		$sql->bindValue(':idobjetunique',$idobjetunique);
-		$sql->bindValue(':idperso',$perso->id());
+		$sql->bindValue(':idperso',$perso->getId());
 		$sql->execute();
 		return $sql->fetch();
 	}
@@ -785,7 +787,7 @@ Class PersoManager extends DatabaseManager
 	public function isfullinventory(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('SELECT COUNT(idperso) as total FROM inventaire  WHERE idperso = :idperso');
-		$sql->bindValue(':idperso',$perso->id());
+		$sql->bindValue(':idperso',$perso->getId());
 		$sql->execute();
 		$retour = $sql->fetch();
 		$total = $retour['total'];
@@ -803,14 +805,14 @@ Class PersoManager extends DatabaseManager
 	public function viderinventaire(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('DELETE FROM inventaire WHERE idperso = :idperso');
-		$sql->bindValue(':idperso',$perso->id());
+		$sql->bindValue(':idperso',$perso->getId());
 		$sql->execute();
 	}
 	
 	public function message_console(Perso $perso, $message)
 	{
 		$sql = $this->_bdd->prepare('INSERT INTO console (id_perso,message,date_message) VALUES (:id_perso,:message,NOW())');
-		$sql->bindValue(':id_perso',$perso->id());
+		$sql->bindValue(':id_perso',$perso->getId());
 		$sql->bindValue(':message',$message);
 		$sql->execute();
 	}
@@ -818,7 +820,7 @@ Class PersoManager extends DatabaseManager
 	public function recup_console(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('SELECT message,date_message,id_perso FROM console WHERE id_perso = :id_perso OR id_perso = 0 ORDER BY id DESC');
-		$sql->bindValue(':id_perso',$perso->id());
+		$sql->bindValue(':id_perso',$perso->getId());
 		$sql->execute();
 		
 		return $sql->fetchAll();
@@ -827,7 +829,7 @@ Class PersoManager extends DatabaseManager
 	public function resetconsole(Perso $perso)
 	{
 		$sql = $this->_bdd->prepare('DELETE FROM console WHERE id_perso = :id_perso');
-		$sql->bindValue(':id_perso',$perso->id());
+		$sql->bindValue(':id_perso',$perso->getId());
 		$sql->execute();
 	}
 	
@@ -881,8 +883,8 @@ Class PersoManager extends DatabaseManager
 	
 	public function getadversaireacote(Perso $perso)
 	{
-		$x = $perso->localisation_x();
-		$y = $perso->localisation_y() - 1 ;
+		$x = $perso->getLocalisationX();
+		$y = $perso->getLocalisationY() - 1 ;
 		$get_sql = $this->_bdd->prepare('SELECT * FROM perso WHERE etat != :etat AND localisation_x = :x AND localisation_y = :y');
 		$get_sql->bindValue(':etat', 'dead');
 		$get_sql->bindValue(':x', $x);
@@ -895,8 +897,8 @@ Class PersoManager extends DatabaseManager
 		}
 		else
 		{
-			$x = $perso->localisation_x() + 1;
-			$y = $perso->localisation_y();
+			$x = $perso->getLocalisationX() + 1;
+			$y = $perso->getLocalisationY();
 			$get_sql = $this->_bdd->prepare('SELECT * FROM perso WHERE etat != :etat AND localisation_x = :x AND localisation_y = :y');
 			$get_sql->bindValue(':etat', 'dead');
 			$get_sql->bindValue(':x', $x);
@@ -909,8 +911,8 @@ Class PersoManager extends DatabaseManager
 			}
 			else
 			{
-				$x = $perso->localisation_x();
-				$y = $perso->localisation_y() + 1;
+				$x = $perso->getLocalisationX();
+				$y = $perso->getLocalisationY() + 1;
 				$get_sql = $this->_bdd->prepare('SELECT * FROM perso WHERE etat != :etat AND localisation_x = :x AND localisation_y = :y');
 				$get_sql->bindValue(':etat', 'dead');
 				$get_sql->bindValue(':x', $x);
@@ -923,8 +925,8 @@ Class PersoManager extends DatabaseManager
 				}
 				else
 				{
-					$x = $perso->localisation_x();
-					$y = $perso->localisation_y() + 1;
+					$x = $perso->getLocalisationX();
+					$y = $perso->getLocalisationY() + 1;
 					$get_sql = $this->_bdd->prepare('SELECT * FROM perso WHERE etat != :etat AND localisation_x = :x AND localisation_y = :y');
 					$get_sql->bindValue(':etat', 'dead');
 					$get_sql->bindValue(':x', $x);

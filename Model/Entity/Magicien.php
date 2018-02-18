@@ -6,19 +6,19 @@ Class Magicien extends Perso
 	public function endormir(Perso $cible)
 	{
 		// on verif que l'adversaire soit a cote
-		if ($this->direction()=='haut' AND ($cible->localisation_x() == $this->localisation_x() ) AND ($cible->localisation_y() == $this->localisation_y() - 1 ) )
+		if ($this->getDirection()=='haut' AND ($cible->getLocalisationX() == $this->getLocalisationX() ) AND ($cible->getLocalisationY() == $this->getLocalisationY() - 1 ) )
 		{
 			$justeacote = TRUE ;
 		}
-		elseif ($this->direction()=='bas' AND ($cible->localisation_x() == $this->localisation_x() ) AND ($cible->localisation_y() == $this->localisation_y() + 1 ) )
+		elseif ($this->getDirection()=='bas' AND ($cible->getLocalisationX() == $this->getLocalisationX() ) AND ($cible->getLocalisationY() == $this->getLocalisationY() + 1 ) )
 		{
 			$justeacote = TRUE ;
 		}
-		elseif ($this->direction()=='gauche' AND ($cible->localisation_x() == $this->localisation_x() - 1) AND ($cible->localisation_y() == $this->localisation_y() ) )
+		elseif ($this->getDirection()=='gauche' AND ($cible->getLocalisationX() == $this->getLocalisationX() - 1) AND ($cible->getLocalisationY() == $this->getLocalisationY() ) )
 		{
 			$justeacote = TRUE ;
 		}
-		elseif ($this->direction()=='droite' AND ($cible->localisation_x() == $this->localisation_x() + 1) AND ($cible->localisation_y() == $this->localisation_y() ) )
+		elseif ($this->getDirection()=='droite' AND ($cible->getLocalisationX() == $this->getLocalisationX() + 1) AND ($cible->getLocalisationY() == $this->getLocalisationY() ) )
 		{
 			$justeacote = TRUE ;
 		}
@@ -27,15 +27,15 @@ Class Magicien extends Perso
 			$justeacote = FALSE ;
 		}
 		
-		if ($this->special() > 30 )
+		if ($this->getSpecial() > 30 )
 		{
-			if ($justeacote AND $this->id()!=$cible->id())
+			if ($justeacote AND $thisIdEtat()!=$cibleIdEtat())
 			{
 				// on endort
-				$this->Setspecial($this->special()-30);
-				return $cible->fairedodo($this->niveau()*60);
+				$this->Setspecial($this->getSpecial()-30);
+				return $cible->fairedodo($this->getNiveau()*60);
 			}
-			elseif ($this->id()==$cible->id())
+			elseif ($thisIdEtat()==$cibleIdEtat())
 			{
 				// le perso s endort lui-meme
 				return 3;
@@ -51,9 +51,9 @@ Class Magicien extends Perso
 	
 	public function regenerermagie()
 	{	
-		if ($this->special()<100)
+		if ($this->getSpecial()<100)
 		{
-			$this->setspecial($this->special()+1);	
+			$this->setspecial($this->getSpecial()+1);
 		}
 		else
 		{
@@ -64,7 +64,7 @@ Class Magicien extends Perso
 	public function ouvrircoffre()
 	{
 		$nombre = rand(1,12);
-		if (in_array($nombre,$this->inventaire()))
+		if (in_array($nombre,$this->getInventaire()))
 		{
 			return 0;
 		}
@@ -81,4 +81,3 @@ Class Magicien extends Perso
 		}
 	}
 }
-?>

@@ -1,8 +1,7 @@
 <?php
 Class Bot extends Perso
 {
-	
-	public function gagnerexperience()
+  public function gagnerexperience()
 	{
 		return 0;	
 	}
@@ -14,17 +13,17 @@ Class Bot extends Perso
 	
 	public function recevoirdegats($force)
 	{
-		if ($this->typeperso()==10 )
+		if ($this->getTypeperso()==10 )
 		{
 			return 3;
 		}
 		else
 		{
 			$force = (int) $force ;
-			$coef = (1/10) * (11 - $this->niveau());
+			$coef = (1/10) * (11 - $this->getNiveau());
 			$degats = floor( $force * $coef ) ;
-			$this->setDegats($this->degats() + $degats);
-			if ($this->degats()>99 )
+			$this->setDegats($this->getDegats() + $degats);
+			if ($this->getDegats()>99 )
 			{
 				$this->setEtat('dead');
 				return 2;
@@ -40,4 +39,3 @@ Class Bot extends Perso
 		}
 	}
 }
-?>

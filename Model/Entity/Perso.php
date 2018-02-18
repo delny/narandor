@@ -26,131 +26,290 @@ Class Perso
 		foreach($donnees as $key => $value)
 		{
 			$method = 'set'.ucfirst($key);
+			if($key == 'localisation_x'){
+			  $method = 'setLocalisationX';
+      }
+      if($key == 'localisation_y'){
+        $method = 'setLocalisationY';
+      }
 			if (method_exists($this,$method))
 			{
 				$this->$method($value);
 			}
 		}
 	}
+  
+  /**
+   * @return mixed
+   */
+  public function getId()
+  {
+    return $this->_id;
+  }
+  
+  /**
+   * @param mixed $id
+   * @return Perso
+   */
+  public function setId($id)
+  {
+    $this->_id = $id;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getNom()
+  {
+    return $this->_nom;
+  }
+  
+  /**
+   * @param mixed $nom
+   * @return Perso
+   */
+  public function setNom($nom)
+  {
+    $this->_nom = $nom;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getPassword()
+  {
+    return $this->_password;
+  }
+  
+  /**
+   * @param mixed $password
+   * @return Perso
+   */
+  public function setPassword($password)
+  {
+    $this->_password = $password;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getEtat()
+  {
+    return $this->_etat;
+  }
+  
+  /**
+   * @param mixed $etat
+   * @return Perso
+   */
+  public function setEtat($etat)
+  {
+    $this->_etat = $etat;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getLocalisation()
+  {
+    return $this->_localisation;
+  }
+  
+  /**
+   * @param mixed $localisation
+   * @return Perso
+   */
+  public function setLocalisation($localisation)
+  {
+    $this->_localisation = $localisation;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getLocalisationX()
+  {
+    return $this->_localisation_x;
+  }
+  
+  /**
+   * @param mixed $localisation_x
+   * @return Perso
+   */
+  public function setLocalisationX($localisation_x)
+  {
+    $this->_localisation_x = $localisation_x;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getLocalisationY()
+  {
+    return $this->_localisation_y;
+  }
+  
+  /**
+   * @param mixed $localisation_y
+   * @return Perso
+   */
+  public function setLocalisationY($localisation_y)
+  {
+    $this->_localisation_y = $localisation_y;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getDirection()
+  {
+    return $this->_direction;
+  }
+  
+  /**
+   * @param mixed $direction
+   * @return Perso
+   */
+  public function setDirection($direction)
+  {
+    $this->_direction = $direction;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getNiveau()
+  {
+    return $this->_niveau;
+  }
+  
+  /**
+   * @param mixed $niveau
+   * @return Perso
+   */
+  public function setNiveau($niveau)
+  {
+    $this->_niveau = $niveau;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getExperience()
+  {
+    return $this->_experience;
+  }
+  
+  /**
+   * @param mixed $experience
+   * @return Perso
+   */
+  public function setExperience($experience)
+  {
+    $this->_experience = $experience;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getDegats()
+  {
+    return $this->_degats;
+  }
+  
+  /**
+   * @param mixed $degats
+   * @return Perso
+   */
+  public function setDegats($degats)
+  {
+    $this->_degats = $degats;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getTypeperso()
+  {
+    return $this->_typeperso;
+  }
+  
+  /**
+   * @param mixed $typeperso
+   * @return Perso
+   */
+  public function setTypeperso($typeperso)
+  {
+    $this->_typeperso = $typeperso;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getSpecial()
+  {
+    return $this->_special;
+  }
+  
+  /**
+   * @param mixed $special
+   * @return Perso
+   */
+  public function setSpecial($special)
+  {
+    $this->_special = $special;
+    return $this;
+  }
+  
+  /**
+   * @return mixed
+   */
+  public function getInventaire()
+  {
+    return $this->_inventaire;
+  }
+  
+  /**
+   * @param mixed $inventaire
+   * @return Perso
+   */
+  public function setInventaire($inventaire)
+  {
+    $this->_inventaire = $inventaire;
+    return $this;
+  }
 	
-	// setteurs
-	public function setId ($id)
-	{
-		$this->_id = (int) $id;
-	}
 	
-	public function setNom($nom)
-	{
-		$this->_nom = htmlspecialchars($nom);
-	}
-	
-	public function setPassword($password)
-	{
-		$this->_password = $password;
-	}
-	
-	public function setEtat($etat)
-	{
-		$this->_etat = $etat;
-	}
-	
-	public function setLocalisation($localisation)
-	{
-		$this->_localisation = $localisation;
-	}
-	
-	public function setLocalisation_x($localisation_x)
-	{
-		$this->_localisation_x = $localisation_x;
-	}
-	
-	public function setLocalisation_y($localisation_y)
-	{
-		$this->_localisation_y = $localisation_y;
-	}
-	
-	public function setDirection($direction)
-	{
-		switch($direction)
-		{
-			case "haut" :
-				$this->_direction = 'haut';
-				break;
-			case "gauche" :
-				$this->_direction = 'gauche';
-				break;
-			case "droite" :
-				$this->_direction = 'droite';
-				break;
-			case "bas" : 
-				$this->_direction = 'bas';
-				break;
-			default : 
-				$this->_direction = 'bas';
-		}
-	}
-	
-	public function setNiveau($niveau)
-	{
-		$this->_niveau = (int) $niveau;
-	}
-	
-	public function setExperience($experience)
-	{
-		$this->_experience = (int) $experience;
-	}
-	
-	public function setDegats($degats)
-	{
-		$this->_degats = (int) $degats;
-	}
-	
-	public function setTypeperso($typeperso)
-	{
-		$this->_typeperso = (int) $typeperso;
-	}
-	public function setSpecial($special)
-	{
-		$this->_special = (int) $special;
-	}
-	public function setInventaire($inventaire)
-	{
-		$this->_inventaire = $inventaire;
-	}
-	
-	//getteurs
-	public function id() {return $this->_id ;}
-	public function nom() {return $this->_nom;}
-	public function password() {return $this->_password;}
-	public function etat() {return $this->_etat; }
-	public function localisation() {return $this->_localisation; }
-	public function localisation_x() {return $this->_localisation_x; }
-	public function localisation_y() {return $this->_localisation_y; }
-	public function direction() {return $this->_direction; }
-	public function niveau() {return $this->_niveau; }
-	public function experience() {return $this->_experience; }
-	public function degats() {return $this->_degats; }
-	public function typeperso() {return $this->_typeperso; }
-	public function special() {return $this->_special; }
-	public function inventaire() {return $this->_inventaire; }
 	
 	// Autres Fonctions
 	public function frapper(Perso $cible)
 	{
 		// on verif que l'adversaire soit a cote
-		if ($this->direction()=='haut' AND ($cible->localisation_x() == $this->localisation_x() ) AND ($cible->localisation_y() == $this->localisation_y() - 1 ) )
+		if ($this->getDirection()=='haut' AND ($cible->getLocalisationX() == $this->getLocalisationX() ) AND ($cible->getLocalisationY() == $this->getLocalisationY() - 1 ) )
 		{
 			$justeacote = TRUE ;
 		}
-		elseif ($this->direction()=='bas' AND ($cible->localisation_x() == $this->localisation_x() ) AND ($cible->localisation_y() == $this->localisation_y() + 1 ) )
+		elseif ($this->getDirection()=='bas' AND ($cible->getLocalisationX() == $this->getLocalisationX() ) AND ($cible->getLocalisationY() == $this->getLocalisationY() + 1 ) )
 		{
 			$justeacote = TRUE ;
 		}
-		elseif ($this->direction()=='gauche' AND ($cible->localisation_x() == $this->localisation_x() - 1) AND ($cible->localisation_y() == $this->localisation_y() ) )
+		elseif ($this->getDirection()=='gauche' AND ($cible->getLocalisationX() == $this->getLocalisationX() - 1) AND ($cible->getLocalisationY() == $this->getLocalisationY() ) )
 		{
 			$justeacote = TRUE ;
 		}
-		elseif ($this->direction()=='droite' AND ($cible->localisation_x() == $this->localisation_x() + 1) AND ($cible->localisation_y() == $this->localisation_y() ) )
+		elseif ($this->getDirection()=='droite' AND ($cible->getLocalisationX() == $this->getLocalisationX() + 1) AND ($cible->getLocalisationY() == $this->getLocalisationY() ) )
 		{
 			$justeacote = TRUE ;
 		}
@@ -159,14 +318,14 @@ Class Perso
 			$justeacote = FALSE ;
 		}
 		
-		if ($justeacote AND $this->id()!=$cible->id())
+		if ($justeacote AND $thisIdEtat()!=$cibleIdEtat())
 		{
 			// on frappe
-			$force = $this->niveau()*10 - floor( ($this->degats())/10 );
+			$force = $this->getNiveau()*10 - floor( ($this->getDegats())/10 );
 			$degats = ($force < 0 ) ? 0 : $force;
 			return $cible->recevoirdegats($degats);
 		}
-		elseif ($this->id()==$cible->id())
+		elseif ($thisIdEtat()==$cibleIdEtat())
 		{
 			// le perso se frappe lui-meme
 			return 5;
@@ -181,20 +340,20 @@ Class Perso
 	
 	public function gagnerexperience()
 	{
-		$this->setExperience($this->experience() + 1 );
-		if ($this->experience()>99  AND $this->niveau() < 9 )
+		$this->setExperience($this->getExperience() + 1 );
+		if ($this->getExperience()>99  AND $this->getNiveau() < 9 )
 		{
-			$this->setNiveau($this->niveau()+1);
+			$this->setNiveau($this->getNiveau()+1);
 			$this->setExperience(0);
 			return 1;
 		}
-		elseif ($this->experience()>99  AND $this->niveau() == 9 )
+		elseif ($this->getExperience()>99  AND $this->getNiveau() == 9 )
 		{
 			$this->setNiveau(10);
 			$this->setExperience(100);
 			return 1;
 		}
-		elseif ($this->experience()>99 AND $this->niveau()> 9 )
+		elseif ($this->getExperience()>99 AND $this->getNiveau()> 9 )
 		{
 			$this->setNiveau(10);
 			$this->setExperience(100);
@@ -206,10 +365,10 @@ Class Perso
 	public function recevoirdegats($force)
 	{
 		$force = (int) $force ;
-		$coef = (1/10) * (11 - $this->niveau());
+		$coef = (1/10) * (11 - $this->getNiveau());
 		$degats = floor( $force * $coef ) ;
-		$this->setDegats($this->degats() + $degats);
-		if ($this->degats()>99 )
+		$this->setDegats($this->getDegats() + $degats);
+		if ($this->getDegats()>99 )
 		{
 			$this->setEtat('dead');
 			return 2;
@@ -226,7 +385,7 @@ Class Perso
 	
 	public function fairedodo($duree)
 	{
-		if ($this->etat()=='alive')
+		if ($this->getEtat()=='alive')
 		{
 			$fin = time() + $duree;
 			$this->setEtat('sleep;'.$fin);
@@ -240,7 +399,7 @@ Class Perso
 	
 	public function wakeup()
 	{
-		if (preg_match('#sleep#',$this->etat()))
+		if (preg_match('#sleep#',$this->getEtat()))
 		{
 			$this->setEtat('alive');
 		}
@@ -248,7 +407,7 @@ Class Perso
 	
 	public function recuperer()
 	{
-		if ( $this->degats() > 0 )
+		if ( $this->getDegats() > 0 )
 		{
 			$this->setDegats(0);
 			return 0;
@@ -264,4 +423,3 @@ Class Perso
 		return 0;
 	}
 }
-?>

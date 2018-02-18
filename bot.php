@@ -45,7 +45,7 @@ for ($i=1;$i<5;$i++)
 	}
 
 	// s'il est mort on le resucite
-	if ( $bot->etat()=='dead' )
+	if ( $bot->getEtat()=='dead' )
 	{
 		if (!$persoManager->getpersoscarte('C',floor($tab_coord_x_bot[$i]/10),floor($tab_coord_y_bot[$i]/10)))
 		{
@@ -62,14 +62,14 @@ for ($i=1;$i<5;$i++)
 			$persoManager->update($bot);
 		}
 	}
-	elseif (preg_match('#sleep#',$bot->etat()))
+	elseif (preg_match('#sleep#',$bot->getEtat()))
 	{
 		// on attend qu'il se reveille
 		echo 'Success';
 	}
 	elseif($joueur = $persoManager->getadversaire($bot)) //il attaque
 	{
-		if ($joueur->etat()=='alive')
+		if ($joueur->getEtat()=='alive')
 		{
 			$retour = $bot->frapper($joueur);
 		}
@@ -80,28 +80,28 @@ for ($i=1;$i<5;$i++)
 		switch ($retour)
 		{
 			case 0 : 
-				$message_cible = $bot->nom().' a tent&eacute; de vous frapper ... ';
+				$message_cible = $bot->getNom().' a tent&eacute; de vous frapper ... ';
 				$persoManager->message_console($joueur,$message_cible);
 				$persoManager->update($bot);
 				$persoManager->update($joueur);
 				break;
 			case 1 : 
-				$message_cible = $bot->nom(). ' vous a frapp&eacute; !';
+				$message_cible = $bot->getNom(). ' vous a frapp&eacute; !';
 				$persoManager->message_console($joueur,$message_cible);
 				if ($bot->gagnerexperience()==1 )
 				{
-					$message_perso = 'Bravo, vous passez au niveau '.$bot->niveau().'';
+					$message_perso = 'Bravo, vous passez au niveau '.$bot->getNiveau().'';
 					$persoManager->message_console($bot,$message_perso);
 				}
 				$persoManager->update($bot);
 				$persoManager->update($joueur);
 				break;
 			case 2 : 
-				$message_cible = $bot->nom().' vous a tu&eacute; !';
+				$message_cible = $bot->getNom().' vous a tu&eacute; !';
 				$persoManager->message_console($joueur,$message_cible);
 				if ($bot->gagnerexperience()==1 )
 				{
-					$message_perso = 'Bravo, vous passez au niveau '.$bot->niveau().'';
+					$message_perso = 'Bravo, vous passez au niveau '.$bot->getNiveau().'';
 					$persoManager->message_console($bot,$message_perso);
 				}
 				$persoManager->update($bot);
@@ -145,19 +145,19 @@ for ($i=1;$i<5;$i++)
 	}
 	else // si personne il se deplace
 	{
-		if ($bot->localisation_x()<=$tab_min_x_bot[$i])
+		if ($bot->getLocalisationX()<=$tab_min_x_bot[$i])
 		{
 			$direction = 'droite';
 		}
-		elseif ($bot->localisation_x()>=$tab_max_x_bot[$i])
+		elseif ($bot->getLocalisationX()>=$tab_max_x_bot[$i])
 		{
 			$direction = 'gauche';
 		}
-		elseif ($bot->localisation_y()<=$tab_min_y_bot[$i])
+		elseif ($bot->getLocalisationY()<=$tab_min_y_bot[$i])
 		{
 			$direction = 'bas';
 		}
-		elseif ($bot->localisation_y()>=$tab_max_y_bot[$i])
+		elseif ($bot->getLocalisationY()>=$tab_max_y_bot[$i])
 		{
 			$direction = 'haut';
 		}
@@ -184,7 +184,7 @@ for ($i=1;$i<5;$i++)
 		}
 		
 		
-		if ($direction == $bot->direction())
+		if ($direction == $bot->getDirection())
 		{
 			$persoManager->sedeplacer($bot,$direction);
 		}
@@ -219,7 +219,7 @@ for ($i=11;$i<13;$i++)// enfant
 		$persoManager->add($bot);
 	}
 
-	if (preg_match('#sleep#',$bot->etat()))
+	if (preg_match('#sleep#',$bot->getEtat()))
 	{
 		// on attend qu'il se reveille
 		echo 'Success';
@@ -248,19 +248,19 @@ for ($i=11;$i<13;$i++)// enfant
 	}
 	else // si personne il se deplace
 	{
-		if ($bot->localisation_x()<=$tab_min_x_bot[$i])
+		if ($bot->getLocalisationX()<=$tab_min_x_bot[$i])
 		{
 			$direction = 'droite';
 		}
-		elseif ($bot->localisation_x()>=$tab_max_x_bot[$i])
+		elseif ($bot->getLocalisationX()>=$tab_max_x_bot[$i])
 		{
 			$direction = 'gauche';
 		}
-		elseif ($bot->localisation_y()<=$tab_min_y_bot[$i])
+		elseif ($bot->getLocalisationY()<=$tab_min_y_bot[$i])
 		{
 			$direction = 'bas';
 		}
-		elseif ($bot->localisation_y()>=$tab_max_y_bot[$i])
+		elseif ($bot->getLocalisationY()>=$tab_max_y_bot[$i])
 		{
 			$direction = 'haut';
 		}
@@ -287,7 +287,7 @@ for ($i=11;$i<13;$i++)// enfant
 		}
 		
 		
-		if ($direction == $bot->direction() )
+		if ($direction == $bot->getDirection() )
 		{
 			$persoManager->sedeplacer($bot,$direction);
 		}
@@ -300,4 +300,3 @@ for ($i=11;$i<13;$i++)// enfant
 		echo 'Success';
 	}
 }
- ?>

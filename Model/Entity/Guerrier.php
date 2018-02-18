@@ -7,11 +7,11 @@ Class Guerrier extends Perso
 	public function recevoirdegats($force)
 	{
 		$force = (int) $force ;
-		$coef = (1/10) * (11 - $this->niveau());
-		$coefprotection = 1 - ($this->special()/200);
+		$coef = (1/10) * (11 - $this->getNiveau());
+		$coefprotection = 1 - ($this->getSpecial()/200);
 		$degats = floor( $force * $coef * $coefprotection ) ;
-		$this->setDegats($this->degats() + $degats);
-		if ($this->degats()>99 )
+		$this->setDegats($this->getDegats() + $degats);
+		if ($this->getDegats()>99 )
 		{
 			$this->setEtat('dead');
 			return 2;
@@ -29,7 +29,7 @@ Class Guerrier extends Perso
 	public function ouvrircoffre()
 	{
 		$nombre = rand(1,12);
-		if (in_array($nombre,$this->inventaire()))
+		if (in_array($nombre,$this->getInventaire()))
 		{
 			return 0;
 		}
@@ -46,4 +46,3 @@ Class Guerrier extends Perso
 		}
 	}
 }
-?>

@@ -5,19 +5,9 @@ class HomeController extends Controller
     public function run(){
       // creation du manager
       $manager = new PersoManager();
-      if (isset($_SESSION['pid']))
-      {
-        $pid = (int) $_SESSION['pid'];
-        $perso = $manager->get($pid);
-        $perso->setInventaire($manager->getinventaire($perso));
-        if (!$perso)
-        {
-          session_destroy();
-          header('Location: index.php');
-          exit;
-        }
-      }
-      if(!empty($pid))
+      $userManager = new UserManager();
+      $perso = $userManager->getUser();
+      if(!empty($perso))
       {
         header('Location: index.php?action=game');
         exit;
@@ -38,7 +28,7 @@ class HomeController extends Controller
         elseif ($perso = $manager->get($nom)) // il existe
         {
           $retour = TRUE;
-          if( sha1('B1*x'.$password)!=$perso->password() ) // les mots de passe correspondent
+          if( sha1('B1*x'.$password)!=$perso->getPassword() ) // les mots de passe correspondent
           {
             $erreur = 'L\'utilisateur existe d&eacute;j&agrave; et le mot de passe est incorrect ';
           }
@@ -72,7 +62,7 @@ class HomeController extends Controller
 
         if (!isset($erreur))
         {
-          $_SESSION['pid'] = $perso->id();
+          $_SESSION['pid'] = $perso->getId();
           $retouroubienvenue = ($retour) ? 'Bon retour' : 'Bienvenue';
           $message_perso = $retouroubienvenue.' &agrave; Narandor' ;
           $manager->message_console($perso,$message_perso);
