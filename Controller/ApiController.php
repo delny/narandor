@@ -22,6 +22,13 @@ class ApiController
         'force' => $force_perso,
       );
       
+      if($perso->getTypeperso() == 1){
+        $data['protection'] = $perso->getSpecial();
+      }
+      if($perso->getTypeperso() == 2){
+        $data['magie'] = $perso->getSpecial();
+      }
+      
       echo json_encode($data);
     }
   }

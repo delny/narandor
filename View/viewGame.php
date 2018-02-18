@@ -21,7 +21,8 @@ $titre = WEBSITE_TITLE.' -- Accueil';
             <div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:{{ user.experience }}%">{{ user.experience }}/100</div></div>
             <div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:{{ user.degats }}%">{{ user.degats }}/100</div></div>
             <div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:{{ user.force }}%">{{ user.force }}/100</div></div>
-            Chargement en cours...
+            <div ng-if="user.protection" class="infosname">Protection</div><div ng-if="user.protection" class="barreprogression"><div style="width:{{ user.protection }}%">{{ user.protection }}/100</div></div>
+            <div ng-if="user.magie" class="infosname">Magie</div><div ng-if="user.magie" class="barreprogression"><div style="width:{{ user.magie }}%">{{ user.magie }}/100</div></div>
           </div>
           <hr>
           <div id="myinventory">

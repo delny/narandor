@@ -318,14 +318,14 @@ Class Perso
 			$justeacote = FALSE ;
 		}
 		
-		if ($justeacote AND $thisIdEtat()!=$cibleIdEtat())
+		if ($justeacote AND $this->getId()!=$cible->getId())
 		{
 			// on frappe
 			$force = $this->getNiveau()*10 - floor( ($this->getDegats())/10 );
 			$degats = ($force < 0 ) ? 0 : $force;
 			return $cible->recevoirdegats($degats);
 		}
-		elseif ($thisIdEtat()==$cibleIdEtat())
+		elseif ($this->getId()==$cible->getId())
 		{
 			// le perso se frappe lui-meme
 			return 5;
