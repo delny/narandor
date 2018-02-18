@@ -176,6 +176,9 @@ h1
 	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
 	filter: grayscale(100%);
 }
+.msginfo{
+	color:rgb(34,177,76);
+}
 #myinventory
 {
 	text-align:left;

@@ -133,16 +133,6 @@ function getcarte () {
 }
 function getmsg () {
 	$.ajax({
-			url : "play.php",
-			type : 'POST',
-			data : 'get=msg',
-			success: function(html){
-				if (html){
-					$(".msglist").html(html);
-				}
-			}
-		});
-	$.ajax({
 			url : "inventory.php",
 			type : 'POST',
 			data : 'get=inventory',
@@ -172,7 +162,6 @@ function useobject ($idobjet) {
 			type : 'POST',
 			data : 'use=' + $idobjet,
 			success: function(html){
-				console.log(html);
 				if (html){
 					getcarte();
 					getmsg();

@@ -15,14 +15,22 @@ $titre = WEBSITE_TITLE.' -- Accueil';
         <fieldset>
           <legend>Mes informations</legend>
           <div class="mystatut">
-            <div>Nom : {{ user.nom}}</div>
-            <div>Position {{ user.position }}</div>
-            <div class="infosname">Niveau</div><div class="barreprogression"><div style="width:{{ user.niveau }}0%">{{ user.niveau }}/10</div></div>
-            <div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:{{ user.experience }}%">{{ user.experience }}/100</div></div>
-            <div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:{{ user.degats }}%">{{ user.degats }}/100</div></div>
-            <div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:{{ user.force }}%">{{ user.force }}/100</div></div>
-            <div ng-if="user.protection" class="infosname">Protection</div><div ng-if="user.protection" class="barreprogression"><div style="width:{{ user.protection }}%">{{ user.protection }}/100</div></div>
-            <div ng-if="user.magie" class="infosname">Magie</div><div ng-if="user.magie" class="barreprogression"><div style="width:{{ user.magie }}%">{{ user.magie }}/100</div></div>
+            <div ng-class="{unactive : user.etat != 'alive'}">
+              <div>Nom : {{ user.nom}}</div>
+              <div>Position {{ user.position }}</div>
+              <div class="infosname">Niveau</div><div class="barreprogression"><div style="width:{{ user.niveau }}0%">{{ user.niveau }}/10</div></div>
+              <div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:{{ user.experience }}%">{{ user.experience }}/100</div></div>
+              <div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:{{ user.degats }}%">{{ user.degats }}/100</div></div>
+              <div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:{{ user.force }}%">{{ user.force }}/100</div></div>
+              <div ng-if="user.protection" class="infosname">Protection</div><div ng-if="user.protection" class="barreprogression"><div style="width:{{ user.protection }}%">{{ user.protection }}/100</div></div>
+              <div ng-if="user.magie" class="infosname">Magie</div><div ng-if="user.magie" class="barreprogression"><div style="width:{{ user.magie }}%">{{ user.magie }}/100</div></div>
+            </div>
+            <div ng-if="user.sleep">Vous avez &eacute;t&eacute; endormi !</div>
+            <div ng-if="user.sleep">Vous devez attendre {{ user.sleep }} secondes avant de pouvoir bouger!</div>
+            <div ng-if="user.etat == 'mort'">
+              <div>Vous &ecirc;tes mort ! </div>
+              <div><a href="index.php?action=game&restart=ok">Cliquez ICI pour rena&icirc;tre </a></div>
+            </div>
           </div>
           <hr>
           <div id="myinventory">
@@ -39,6 +47,9 @@ $titre = WEBSITE_TITLE.' -- Accueil';
             <span  onclick="resetconsole();" title="Effacer la console" style="cursor:pointer;"></span>
           </div>
           <div class="msglist">
+            <div ng-repeat="message in messages">
+              <p ng-class="{msginfo : message.exp == 0}">{{ message.date }} :{{ message.contenu }}</p>
+            </div>
           </div>
         </fieldset>
     </fieldset>
