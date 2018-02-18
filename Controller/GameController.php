@@ -4,10 +4,10 @@ class GameController extends Controller
 {
   public function run(){
     $manager = new PersoManager();
+    $userManager = new UserManager();
     $manager->insertvisite();
-    $pid = (isset($_SESSION['pid'])) ? (int) $_SESSION['pid'] : false;
-    $perso = $manager->get($pid);
-    if (empty($pid))
+    $perso = $userManager->getUser();
+    if (empty($perso))
     {
       header('Location: index.php');
       exit;
@@ -15,7 +15,7 @@ class GameController extends Controller
     
     if ( isset($_GET['restart']) AND $_GET['restart']=='ok')
     {
-      if ( $perso->etat()=='dead' )
+      if ( $perso->getEtat()=='dead' )
       {
         $x = 1 ;
         $y = 1 ;

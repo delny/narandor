@@ -2,14 +2,15 @@
   session_start();
   require ('App/Autoloader.php');
   Autoloader::register();
-  $pid = (isset($_SESSION['pid'])) ? (int) $_SESSION['pid'] : false;
+  $userManager = new UserManager();
+  $perso = $userManager->getUser();
+  
   $persoManager = new PersoManager();
-  $perso = $persoManager->get($pid);
 if (isset($_POST['recherche']) AND $_POST['recherche']=='ok' AND !empty($perso) )
 {
-	$localisation = $perso->localisation();
-	$coord_x = $perso->localisation_x();
-	$coord_y = $perso->localisation_y();
+	$localisation = $perso->getLocalisation();
+	$coord_x = $perso->getLocalisationX();
+	$coord_y = $perso->getLocalisationY();
 
 	$carte = $localisation.substr('0'.$coord_x, -2,1).''.substr('0'.$coord_y, -2,1).'';
 	$carte_x = substr('0'.$coord_x, -2,1);
@@ -52,7 +53,7 @@ if (isset($_POST['recherche']) AND $_POST['recherche']=='ok' AND !empty($perso) 
 		}
 		
 		echo '<span class="perso" style="top:'.$dest_y_pap.'px;left:'.$dest_x_pap.'px;background:url(assets/img/profiles/'.$type.'_'.$direction.'.png);">';
-		$nom_perso = ($persoaplacer['nom'] == $perso->nom()) ? 'Vous' : $persoaplacer['nom'];
+		$nom_perso = ($persoaplacer['nom'] == $perso->getNom()) ? 'Vous' : $persoaplacer['nom'];
 		echo $nom_perso.'<br />N°'.$persoaplacer['niveau'].'' ;
 		echo '</span>';
 	}

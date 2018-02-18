@@ -14,11 +14,11 @@ if (empty($pid))
 }
 
 // compte pour regenerermagie
-if ($perso->typeperso()==2)
+if ($perso->getTypeperso()==2)
 {
-	if (file_exists('tmp/magic'.$perso->id().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
+	if (file_exists('tmp/magic'.$perso->getId().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
 	{
-		$fichier = fopen('tmp/magic'.$perso->id().'.tmp','r+');
+		$fichier = fopen('tmp/magic'.$perso->getId().'.tmp','r+');
 		$donnees_fichier = fgets($fichier);
 		
 		if (time() -  $donnees_fichier > 5)
@@ -36,7 +36,7 @@ if ($perso->typeperso()==2)
 	else
 	{
 		// on cree le fichier
-		$new_fichier = fopen('tmp/magic'.$perso->id().'.tmp','a+');
+		$new_fichier = fopen('tmp/magic'.$perso->getId().'.tmp','a+');
 		fputs($new_fichier,time());
 		fclose($new_fichier);
 		$reponse = TRUE;
@@ -62,7 +62,7 @@ if ( isset($_POST['message']))
 	if (preg_match('#^/tp @me [0-9]{1,2} [0-9]{1,2}$#',$message))
 	{
 		$tab_message = explode(" ",$message);
-		$localisation = $perso->localisation();
+		$localisation = $perso->getLocalisation();
 		$coordx = $tab_message[2];
 		$coordy = $tab_message[3];
 		if ($persoManager->placeprise($localisation,$coordx,$coordy))
@@ -70,7 +70,7 @@ if ( isset($_POST['message']))
 			$message_perso = 'Impossible de vous t&eacute;l&eacute;port&eacute; &agrave; cet endroit';
 			$persoManager->message_console($perso,$message_perso);
 		}
-		elseif ($perso->localisation()!='C')
+		elseif ($perso->getLocalisation()!='C')
 		{
 			$message_perso = 'Impossible de vous t&eacute;l&eacute;port&eacute; depuis l\'int&eacute;rieur';
 			$persoManager->message_console($perso,$message_perso);
@@ -115,7 +115,7 @@ if ( isset($_POST['message']))
 		$persoManager->message_console($perso,$message_perso);
 		if ($perso->gagnerexperience()==1 )
 		{
-			$message_perso = 'Bravo, vous passez au niveau '.$perso->niveau().'';
+			$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau().'';
 			$persoManager->message_console($perso,$message_perso);
 		}
 		$persoManager->update($perso);
@@ -132,11 +132,11 @@ if ( isset($_POST['message']))
 }
 elseif ( isset($_POST['restart']) AND $_POST['restart']=='ok')
 {
-	if ( $perso->etat()=='dead' )
+	if ( $perso->getEtat()=='dead' )
 	{
 		$x = 1 ;
 		$y = 1 ;
-		while ($persoManager->placeprise($x,$y))
+		while ($persoManager->placeprise('C',$x,$y))
 		{
 			$x = rand(1,9);
 			$y = rand(1,9);
@@ -163,12 +163,12 @@ elseif ( isset($_POST['reset']) AND $_POST['reset']=='console')
 	echo 'Success';
 
 }
-elseif (isset($_POST['direction']) AND $perso->etat()=='alive')
+elseif (isset($_POST['direction']) AND $perso->getEtat()=='alive')
 {
 	// pour tout le monde -- se deplacer limiter à 5 par sec
-	if (file_exists('tmp/move'.$perso->id().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
+	if (file_exists('tmp/move'.$perso->getId().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
 	{
-		$fichiermove = fopen('tmp/move'.$perso->id().'.tmp','r+');
+		$fichiermove = fopen('tmp/move'.$perso->getId().'.tmp','r+');
 		$donnees_fichier = fgets($fichiermove);
 		$tab_donnees = explode(";",$donnees_fichier);
 		
@@ -199,14 +199,14 @@ elseif (isset($_POST['direction']) AND $perso->etat()=='alive')
 	else
 	{
 		// on cree le fichiermove
-		$new_fichiermove = fopen('tmp/move'.$perso->id().'.tmp','a+');
+		$new_fichiermove = fopen('tmp/move'.$perso->getId().'.tmp','a+');
 		fputs($new_fichiermove,time().';1');
 		fclose($new_fichiermove);
 		$agiroupas = TRUE;
 	}
 	
 	$direction = $_POST['direction'];
-	if ($direction == $perso->direction() AND $moveoupas )
+	if ($direction == $perso->getDirection() AND $moveoupas )
 	{
 		$retour = $persoManager->sedeplacer($perso,$direction);
 		switch ($retour)
@@ -239,13 +239,13 @@ elseif (isset($_POST['direction']) AND $perso->etat()=='alive')
 		echo 'Success';
 	}
 }
-elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
+elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 {
 	
 	// pour tout le monde -- action limiter à 2 par sec
-	if (file_exists('tmp/'.$perso->id().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
+	if (file_exists('tmp/'.$perso->getId().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
 	{
-		$fichier = fopen('tmp/'.$perso->id().'.tmp','r+');
+		$fichier = fopen('tmp/'.$perso->getId().'.tmp','r+');
 		$donnees_fichier = fgets($fichier);
 		$tab_donnees = explode(";",$donnees_fichier);
 		if ($tab_donnees[0] == time())
@@ -275,7 +275,7 @@ elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
 	else
 	{
 		// on cree le fichier
-		$new_fichier = fopen('tmp/'.$perso->id().'.tmp','a+');
+		$new_fichier = fopen('tmp/'.$perso->getId().'.tmp','a+');
 		fputs($new_fichier,time().';1');
 		fclose($new_fichier);
 		$agiroupas = TRUE;
@@ -285,11 +285,11 @@ elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
 	{
 		if ($cible = $persoManager->getadversaire($perso))
 		{
-			if ($cible->etat()!='dead' AND $_POST['agir']=='frapper')
+			if ($cible->getEtat()!='dead' AND $_POST['agir']=='frapper')
 			{
 				$retour = $perso->frapper($cible);
 			}
-			elseif ($_POST['agir']=='endormir' AND $perso->typeperso()==2 )
+			elseif ($_POST['agir']=='endormir' AND $perso->getTypeperso()==2 )
 			{
 				$retour = $perso->endormir($cible);
 			}
@@ -303,34 +303,34 @@ elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
 				switch ($retour)
 				{
 					case 0 : 
-						$message_perso = $cible->nom().' n\'a rien senti !';
-						$message_cible = $perso->nom().' a tent&eacute; de vous frapper ... ';
+						$message_perso = $cible->getNom().' n\'a rien senti !';
+						$message_cible = $perso->getNom().' a tent&eacute; de vous frapper ... ';
 						$persoManager->message_console($perso,$message_perso);
 						$persoManager->message_console($cible,$message_cible);
 						$persoManager->update($perso);
 						$persoManager->update($cible);
 						break;
 					case 1 : 
-						$message_perso = 'Vous avez frapp&eacute; '.$cible->nom();
-						$message_cible = $perso->nom(). ' vous a frapp&eacute; !';
+						$message_perso = 'Vous avez frapp&eacute; '.$cible->getNom();
+						$message_cible = $perso->getNom(). ' vous a frapp&eacute; !';
 						$persoManager->message_console($perso,$message_perso);
 						$persoManager->message_console($cible,$message_cible);
 						if ($perso->gagnerexperience()==1 )
 						{
-							$message_perso = 'Bravo, vous passez au niveau '.$perso->niveau();
+							$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau();
 							$persoManager->message_console($perso,$message_perso);
 						}
 						$persoManager->update($perso);
 						$persoManager->update($cible);
 						break;
 					case 2 : 
-						$message_perso = 'Vous avez tu&eacute; '.$cible->nom();
-						$message_cible = $perso->nom().' vous a tu&eacute; !';
+						$message_perso = 'Vous avez tu&eacute; '.$cible->getNom();
+						$message_cible = $perso->getNom().' vous a tu&eacute; !';
 						$persoManager->message_console($perso,$message_perso);
 						$persoManager->message_console($cible,$message_cible);
 						if ($perso->gagnerexperience()==1 )
 						{
-							$message_perso = 'Bravo, vous passez au niveau '.$perso->niveau();
+							$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau();
 							$persoManager->message_console($perso,$message_perso);
 						}
 						$persoManager->update($perso);
@@ -358,20 +358,20 @@ elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
 				switch ($retour)
 				{
 					case 0 : 
-						$message_perso = $cible->nom().' est d&eacute;j&agrave; endormi !';
+						$message_perso = $cible->getNom().' est d&eacute;j&agrave; endormi !';
 						$persoManager->message_console($perso,$message_perso);
 						$persoManager->update($perso);
 						break;
 					case 1 : 
-						$message_perso = 'Vous avez endormi '.$cible->nom();
-						$message_cible = $perso->nom(). ' vous a endormi !';
+						$message_perso = 'Vous avez endormi '.$cible->getNom();
+						$message_cible = $perso->getNom(). ' vous a endormi !';
 						$persoManager->message_console($perso,$message_perso);
 						$persoManager->message_console($cible,$message_cible);
 						$persoManager->update($perso);
 						$persoManager->update($cible);
 						break;
 					case 2 : 
-						$message_perso = 'Vous n\'avez pas assez de magie pour endormir '.$cible->nom();
+						$message_perso = 'Vous n\'avez pas assez de magie pour endormir '.$cible->getNom();
 						$persoManager->message_console($perso,$message_perso);
 						$persoManager->update($perso);
 						break;
@@ -401,7 +401,7 @@ elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
 					$persoManager->message_console($perso,$message_perso);
 					if ($perso->gagnerexperience()==1 )
 					{
-						$message_perso = 'Bravo, vous passez au niveau '.$perso->niveau().'';
+						$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau().'';
 						$persoManager->message_console($perso,$message_perso);
 					}
 					$persoManager->update($perso);
@@ -515,7 +515,7 @@ elseif (isset($_POST['agir']) AND $perso->etat()=='alive')
 		}
 	}
 }
-elseif (isset($_POST['use']) AND $perso->etat()=='alive')
+elseif (isset($_POST['use']) AND $perso->getEtat()=='alive')
 {
 	$idobjetunique = (int) $_POST['use'];
 	$objet = $persoManager->getobjet($perso,$idobjetunique);
@@ -567,53 +567,53 @@ elseif (isset($_POST['get']) AND $_POST['get']=='msg')
 }
 elseif (isset($_POST['get']) AND $_POST['get']=='statut')
 {
-	if ($perso->etat()=='alive' )
+	if ($perso->getEtat()=='alive' )
 	{
-		$force_perso = $perso->niveau()*10 - floor( ($perso->degats())/10 );
-		echo '<div>Nom : '.$perso->nom().'</div><div>Position : '.$perso->localisation_x().','.$perso->localisation_y().'</div>';
-		echo '<div class="infosname">Niveau</div><div class="barreprogression"><div style="width:'.$perso->niveau().'0%">'.$perso->niveau().'/10</div></div>';
-		echo '<div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:'.$perso->experience().'%">'.$perso->experience().'/100</div></div>';
-		echo '<div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:'.$perso->degats().'%">'.$perso->degats().'/100';
+		$force_perso = $perso->getNiveau()*10 - floor( ($perso->getDegats())/10 );
+		echo '<div>Nom : '.$perso->getNom().'</div><div>Position : '.$perso->getLocalisationX().','.$perso->getLocalisationY().'</div>';
+		echo '<div class="infosname">Niveau</div><div class="barreprogression"><div style="width:'.$perso->getNiveau().'0%">'.$perso->getNiveau().'/10</div></div>';
+		echo '<div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:'.$perso->getExperience().'%">'.$perso->getExperience().'/100</div></div>';
+		echo '<div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:'.$perso->getDegats().'%">'.$perso->getDegats().'/100';
 		echo '</div></div>';
 		echo '<div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:'.$force_perso.'%">';
 		echo ''.$force_perso.'/100</div></div>';
-		switch($perso->typeperso())
+		switch($perso->getTypeperso())
 		{
 			case 0:
 			echo ' ';
 			break;
 			case 1 :
-			echo '<div class="infosname">Protection</div><div class="barreprogression"><div style="width:'.$perso->special().'%">'.$perso->special().'/100</div></div>';
+			echo '<div class="infosname">Protection</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
 			break;
 			case 2 :
-			echo '<div class="infosname">Magie</div><div class="barreprogression"><div style="width:'.$perso->special().'%">'.$perso->special().'/100</div></div>';
+			echo '<div class="infosname">Magie</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
 			break;
 			default:
 			echo ' ';
 		}
 	}
-	elseif(preg_match('#sleep#',$perso->etat()))
+	elseif(preg_match('#sleep#',$perso->getEtat()))
 	{
-		$fin = explode(';',$perso->etat())[1];
+		$fin = explode(';',$perso->getEtat())[1];
 		$wait = $fin - time();
-		$force_perso = $perso->niveau()*10 - floor( ($perso->degats())/10 );
-		echo '<div>Nom : '.$perso->nom().'</div><div>Position : '.$perso->localisation_x().','.$perso->localisation_y().'</div>';
-		echo '<div class="infosname">Niveau</div><div class="barreprogression"><div style="width:'.$perso->niveau().'0%">'.$perso->niveau().'/10</div></div>';
-		echo '<div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:'.$perso->experience().'%">'.$perso->experience().'/100</div></div>';
-		echo '<div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:'.$perso->degats().'%">'.$perso->degats().'/100';
+		$force_perso = $perso->getNiveau()*10 - floor( ($perso->getDegats())/10 );
+		echo '<div>Nom : '.$perso->getNom().'</div><div>Position : '.$perso->getLocalisationX().','.$perso->getLocalisationY().'</div>';
+		echo '<div class="infosname">Niveau</div><div class="barreprogression"><div style="width:'.$perso->getNiveau().'0%">'.$perso->getNiveau().'/10</div></div>';
+		echo '<div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:'.$perso->getExperience().'%">'.$perso->getExperience().'/100</div></div>';
+		echo '<div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:'.$perso->getDegats().'%">'.$perso->getDegats().'/100';
 		echo '</div></div>';
 		echo '<div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:'.$force_perso.'%">';
 		echo ''.$force_perso.'/100</div></div>';
-		switch($perso->typeperso())
+		switch($perso->getTypeperso())
 		{
 			case 0:
 			echo ' ';
 			break;
 			case 1 :
-			echo '<div class="infosname">Protection</div><div class="barreprogression"><div style="width:'.$perso->special().'%">'.$perso->special().'/100</div></div>';
+			echo '<div class="infosname">Protection</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
 			break;
 			case 2 :
-			echo '<div class="infosname">Magie</div><div class="barreprogression"><div style="width:'.$perso->special().'%">'.$perso->special().'/100</div></div>';
+			echo '<div class="infosname">Magie</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
 			break;
 			default:
 			echo ' ';
@@ -621,7 +621,7 @@ elseif (isset($_POST['get']) AND $_POST['get']=='statut')
 		echo '<div>Vous avez &eacute;t&eacute; endormi !</div>';
 		echo '<div>Vous devez attendre '.$wait.' secondes avant de pouvoir bouger!</div>';
 	}
-	elseif ($perso->etat()=='dead' )
+	elseif ($perso->getEtat()=='dead' )
 	{
 		echo '<div>Vous &ecirc;tes mort ! </div><div><a href="index.php?action=game&restart=ok">Cliquez ICI pour rena&icirc;tre </a></div>';
 	}
