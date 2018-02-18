@@ -172,6 +172,7 @@ function useobject ($idobjet) {
 			type : 'POST',
 			data : 'use=' + $idobjet,
 			success: function(html){
+				console.log(html);
 				if (html){
 					getcarte();
 					getmsg();

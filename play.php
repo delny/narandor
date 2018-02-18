@@ -569,61 +569,14 @@ elseif (isset($_POST['get']) AND $_POST['get']=='statut')
 {
 	if ($perso->getEtat()=='alive' )
 	{
-		$force_perso = $perso->getNiveau()*10 - floor( ($perso->getDegats())/10 );
-		echo '<div>Nom : '.$perso->getNom().'</div><div>Position : '.$perso->getLocalisationX().','.$perso->getLocalisationY().'</div>';
-		echo '<div class="infosname">Niveau</div><div class="barreprogression"><div style="width:'.$perso->getNiveau().'0%">'.$perso->getNiveau().'/10</div></div>';
-		echo '<div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:'.$perso->getExperience().'%">'.$perso->getExperience().'/100</div></div>';
-		echo '<div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:'.$perso->getDegats().'%">'.$perso->getDegats().'/100';
-		echo '</div></div>';
-		echo '<div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:'.$force_perso.'%">';
-		echo ''.$force_perso.'/100</div></div>';
-		switch($perso->getTypeperso())
-		{
-			case 0:
-			echo ' ';
-			break;
-			case 1 :
-			echo '<div class="infosname">Protection</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
-			break;
-			case 2 :
-			echo '<div class="infosname">Magie</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
-			break;
-			default:
-			echo ' ';
-		}
 	}
 	elseif(preg_match('#sleep#',$perso->getEtat()))
 	{
-		$fin = explode(';',$perso->getEtat())[1];
-		$wait = $fin - time();
-		$force_perso = $perso->getNiveau()*10 - floor( ($perso->getDegats())/10 );
-		echo '<div>Nom : '.$perso->getNom().'</div><div>Position : '.$perso->getLocalisationX().','.$perso->getLocalisationY().'</div>';
-		echo '<div class="infosname">Niveau</div><div class="barreprogression"><div style="width:'.$perso->getNiveau().'0%">'.$perso->getNiveau().'/10</div></div>';
-		echo '<div class="infosname">Exp&eacute;rience</div><div class="barreprogression"><div style="width:'.$perso->getExperience().'%">'.$perso->getExperience().'/100</div></div>';
-		echo '<div class="infosname">D&eacute;g&acirc;ts</div><div class="barreprogression barredegats"><div style="width:'.$perso->getDegats().'%">'.$perso->getDegats().'/100';
-		echo '</div></div>';
-		echo '<div class="infosname">Force</div><div class="barreprogression barreforce"><div style="width:'.$force_perso.'%">';
-		echo ''.$force_perso.'/100</div></div>';
-		switch($perso->getTypeperso())
-		{
-			case 0:
-			echo ' ';
-			break;
-			case 1 :
-			echo '<div class="infosname">Protection</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
-			break;
-			case 2 :
-			echo '<div class="infosname">Magie</div><div class="barreprogression"><div style="width:'.$perso->getSpecial().'%">'.$perso->getSpecial().'/100</div></div>';
-			break;
-			default:
-			echo ' ';
-		}
-		echo '<div>Vous avez &eacute;t&eacute; endormi !</div>';
-		echo '<div>Vous devez attendre '.$wait.' secondes avant de pouvoir bouger!</div>';
+
 	}
 	elseif ($perso->getEtat()=='dead' )
 	{
-		echo '<div>Vous &ecirc;tes mort ! </div><div><a href="index.php?action=game&restart=ok">Cliquez ICI pour rena&icirc;tre </a></div>';
+		echo '';
 	}
 	else
 	{

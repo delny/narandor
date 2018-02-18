@@ -29,13 +29,13 @@ Class Magicien extends Perso
 		
 		if ($this->getSpecial() > 30 )
 		{
-			if ($justeacote AND $thisIdEtat()!=$cibleIdEtat())
+			if ($justeacote AND $this->getId()!=$cible->getId())
 			{
 				// on endort
 				$this->Setspecial($this->getSpecial()-30);
 				return $cible->fairedodo($this->getNiveau()*60);
 			}
-			elseif ($thisIdEtat()==$cibleIdEtat())
+			elseif ($this->getId()==$cible->getId())
 			{
 				// le perso s endort lui-meme
 				return 3;
