@@ -58,4 +58,3 @@ if (isset($_POST['recherche']) AND $_POST['recherche']=='ok' AND !empty($perso) 
 	}
 	echo '</div>';
 }
-?>

@@ -46,4 +46,3 @@ Class Guerrier extends Perso
 		}
 	}
 }
-?>

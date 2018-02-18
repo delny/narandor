@@ -81,4 +81,3 @@ Class Magicien extends Perso
 		}
 	}
 }
-?>

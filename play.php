@@ -630,4 +630,3 @@ elseif (isset($_POST['get']) AND $_POST['get']=='statut')
 		echo '<div>Erreur</div>';
 	}
 }
- ?>

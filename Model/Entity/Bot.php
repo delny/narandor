@@ -1,8 +1,7 @@
 <?php
 Class Bot extends Perso
 {
-	
-	public function gagnerexperience()
+  public function gagnerexperience()
 	{
 		return 0;	
 	}
@@ -40,4 +39,3 @@ Class Bot extends Perso
 		}
 	}
 }
-?>

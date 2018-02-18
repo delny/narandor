@@ -68,4 +68,3 @@ if (isset($_POST['get']) AND $_POST['get']=='inventory' AND !empty($perso) )
 	}
 	echo '</div>';
 }
-?>

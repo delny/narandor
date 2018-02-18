@@ -264,4 +264,3 @@ Class Perso
 		return 0;
 	}
 }
-?>
