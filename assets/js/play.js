@@ -3,9 +3,16 @@ angular.module('myApp')
 
   console.log('init play controller');
   $(document).ready(function () {
+    getStatut();
+  });
+  setInterval (function(){
+    getStatut();
+  },2000);
+
+  var getStatut = function () {
     $http.get('/index.php?action=api&get=statut').then(function (value) {
-      console.log(value.data);
       $scope.user = value.data;
     });
-  });
+  };
+
 });

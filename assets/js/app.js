@@ -141,17 +141,7 @@ function getmsg () {
 					$(".msglist").html(html);
 				}
 			}
-		});/*
-	$.ajax({
-			url : "play.php",
-			type : 'POST',
-			data : 'get=statut',
-			success: function(html){
-				if (html){
-					$("#mystatut").html(html);
-				}
-			}
-		});*/
+		});
 	$.ajax({
 			url : "inventory.php",
 			type : 'POST',
