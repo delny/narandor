@@ -1,0 +1,4 @@
+.idea
+Model/Manager/DatabaseManager.php
+tmp/*
+assets/img/*
