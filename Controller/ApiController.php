@@ -160,4 +160,15 @@ class ApiController
     $data = ['retour' => 'success'];
     return $data;
   }
+  
+  /**
+   * Vider console de messages d'un joueur
+   * @param Perso $perso
+   * @return array
+   */
+  private function resetconsole(Perso $perso){
+    $this->messageManager->resetconsole($perso);
+    $data = ['retour' => 'success'];
+    return $data;
+  }
 }

@@ -159,12 +159,6 @@ elseif ( isset($_POST['restart']) AND $_POST['restart']=='ok')
     $messageManager->message_console($perso,$message_perso);
 	}
 }
-elseif ( isset($_POST['reset']) AND $_POST['reset']=='console')
-{
-	$messageManager->resetconsole($perso);
-	echo 'Success';
-
-}
 elseif (isset($_POST['direction']) AND $perso->getEtat()=='alive')
 {
 	// pour tout le monde -- se deplacer limiter à 5 par sec
@@ -515,34 +509,5 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 			}
 
 		}
-	}
-}
-elseif (isset($_POST['use']) AND $perso->getEtat()=='alive')
-{
-	$idobjetunique = (int) $_POST['use'];
-	$objet = $objectManager->getobjet($perso,$idobjetunique);
-	$idobjet = (int) $objet['idobjet'];
-	switch($idobjet)
-	{
-		case 1 : 
-			// chgt en magicien
-			$perso->setTypeperso(2);
-			$persoManager->update($perso);
-			$message_perso = 'Le globe vous a transform&eacute; en magicien!';
-			$messageManager->message_console($perso,$message_perso);
-      $objectManager->deleteobjet($idobjetunique);
-			echo 'Success';
-		break;
-		case 3 :
-			// potion de guerison
-			$perso->recuperer();
-			$persoManager->update($perso);
-			$message_perso = 'Vous avez r&eacute;cuperer !';
-			$messageManager->message_console($perso,$message_perso);
-      $objectManager->deleteobjet($idobjetunique);
-			echo 'Success';
-		break;
-		default:
-		 echo 'Success';
 	}
 }

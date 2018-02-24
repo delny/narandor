@@ -50,7 +50,7 @@ $titre = WEBSITE_TITLE.' -- Accueil';
         <fieldset class="console">
           <legend>Console</legend>
           <div class="resetconsole">
-            <span  onclick="resetconsole();" title="Effacer la console" style="cursor:pointer;"></span>
+            <span ng-click="resetConsole()" title="Effacer la console" style="cursor:pointer;"></span>
           </div>
           <div class="msglist">
             <div ng-repeat="message in messages">

@@ -7,7 +7,6 @@ class GameController extends Controller
     $objectManager = new ObjectManager();
     $userManager = new UserManager();
     $messageManager = new MessageManager();
-    $persoManager->insertvisite();
     $perso = $userManager->getUser();
     if (empty($perso))
     {

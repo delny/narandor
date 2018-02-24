@@ -62,6 +62,14 @@ angular.module('myApp')
         getInventory();
       }
     });
-  }
+  };
+
+  $scope.resetConsole = function () {
+    $http.get('/index.php?action=api&call=resetconsole').then(function (value) {
+      if(value.data && value.data.retour && value.data.retour == 'success'){
+        getMsg();
+      }
+    });
+  };
 
 });

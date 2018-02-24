@@ -88,14 +88,3 @@ function moveon(direction){
 		}
 	});
 }
-function resetconsole () {
-	$.ajax({
-			url : "play.php",
-			type : 'POST',
-			data : 'reset=console',
-			success: function(html){
-				if (html){
-				}
-			}
-		});
-}
