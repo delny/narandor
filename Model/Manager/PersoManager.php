@@ -3,13 +3,13 @@ Class PersoManager extends DatabaseManager
 {
 	private $_bdd;
 	private $dateManager;
-	private $carteManager;
+	private $mapManager;
 	
 	public function __construct()
 	{
 		$this->_bdd = parent::getBDD();
 		$this->dateManager = new DateManager();
-		$this->carteManager = new MapManager();
+		$this->mapManager = new MapManager();
 	}
 
   /*----------*/
@@ -855,31 +855,7 @@ Class PersoManager extends DatabaseManager
 	/////////
 	/* BOT */
 	/////////
-
-	public function getbot($info)
-	{
-		if (is_int($info))
-		{
-			$sql = $this->_bdd->prepare('SELECT * FROM perso WHERE id = :id');
-			$sql->bindValue(':id', $info);
-			$sql->execute();
-		}
-		else
-		{
-			$sql = $this->_bdd->prepare('SELECT * FROM perso WHERE nom = :nom');
-			$sql->bindValue(':nom', $info);
-			$sql->execute();
-		}
-
-		if ($donnees = $sql->fetch() )
-		{
-			return new Bot($donnees);
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
+ 
 	
 	public function getadversaireacote(Perso $perso)
 	{

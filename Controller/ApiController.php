@@ -5,6 +5,7 @@ class ApiController
   private $persoManager;
   private $userManager;
   private $apiMapController;
+  private $apiBotController;
   
   /**
    * ApiController constructor.
@@ -16,6 +17,7 @@ class ApiController
     $this->persoManager = new PersoManager();
     //Sub-Controller
     $this->apiMapController = new ApiMapController();
+    $this->apiBotController = new ApiBotController();
   }
   
   /**
@@ -34,6 +36,8 @@ class ApiController
     
     if(method_exists($this,$apiMethod)){
       $data = $this->$apiMethod($perso);
+    }elseif (method_exists($this->apiBotController,$apiMethod)) {
+      $data = $this->apiBotController->$apiMethod($perso);
     }elseif (method_exists($this->apiMapController,$apiMethod)) {
       $data = $this->apiMapController->$apiMethod($perso);
     }else {

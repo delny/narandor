@@ -7,13 +7,15 @@ angular.module('myApp')
     getMsg();
     getInventory();
     getMap();
+    refreshBot();
   });
   setInterval (function(){
     getStatut();
     getMsg();
     getInventory();
     getMap();
-  },2000);
+    refreshBot();
+  },1500);
 
   var getStatut = function () {
     $http.get('/index.php?action=api&call=getstatut').then(function (value) {
@@ -39,6 +41,16 @@ angular.module('myApp')
       var mapId = value.data.map.mapId;
       var imageUlr = 'assets/img/maps/' + mapId + '.png';
       $("#mapimg").css('background','url(' + imageUlr + ')');
+    });
+  };
+
+  var refreshBot = function () {
+    $http.get('/index.php?action=api&call=refreshbots').then(function (value) {
+      if(value.data && value.data.retour && value.data.retour == 'success'){
+        getStatut();
+        getMsg();
+        getInventory();
+      }
     });
   };
 

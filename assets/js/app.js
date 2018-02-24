@@ -1,9 +1,6 @@
 $(document).ready( function (){
 	console.log('init game');
 });
-setInterval (function(){
-	refreshbot();
-},1900);
 $("#msgsendconsole").keydown(function(event){
 	switch(event.keyCode)
 	{
@@ -96,17 +93,6 @@ function resetconsole () {
 			url : "play.php",
 			type : 'POST',
 			data : 'reset=console',
-			success: function(html){
-				if (html){
-				}
-			}
-		});
-}
-function refreshbot () {
-	$.ajax({
-			url : "bot.php",
-			type : 'POST',
-			data : 'get=bot',
 			success: function(html){
 				if (html){
 				}
