@@ -20,15 +20,18 @@ class ApiController
    */
   public function run()
   {
-    if(empty($_GET['get'])){
-      return false;
-    }
     $perso = $this->userManager->getUser();
+    $data = array();
+    if(!empty($_GET['call'])){
+      $apiMethod = $_GET['call'];
+    } else{
+      echo json_encode(['erreur' => 'appel inconnu']);
+    }
     
-    if($_GET['get'] == 'statut'){
-      $data = $this->getStatut($perso);
-    } elseif ($_GET['get'] == 'msg'){
-      $data = $this->getMessages($perso);
+    if(method_exists($this,$apiMethod)){
+      $data = $this->$apiMethod($perso);
+    }else{
+      echo json_encode(['erreur' => 'appel inconnu']);
     }
     
     echo json_encode($data);
@@ -39,7 +42,7 @@ class ApiController
    * @param Perso $perso
    * @return array
    */
-  private function getStatut(Perso $perso){
+  private function getstatut(Perso $perso){
     $force_perso = $perso->getNiveau()*10 - floor( ($perso->getDegats())/10 );
     $data =  array(
       'nom' => $perso->getNom(),
@@ -74,7 +77,7 @@ class ApiController
    * @param Perso $perso
    * @return array
    */
-  private function getMessages(Perso $perso){
+  private function getmsg(Perso $perso){
     $data = [];
     if($messages = $this->persoManager->recup_console($perso)){
       foreach ($messages as $message){
@@ -86,6 +89,61 @@ class ApiController
         array_push($data,$data_msg);
       }
     }
+    return $data;
+  }
+  
+  /**
+   * Renvoie l'inventaire du joueur
+   * @param Perso $perso
+   * @return array
+   */
+  private function getinventory(Perso $perso){
+    $data = [];
+    // on recup les objets du joueur
+    $objets = $this->persoManager->getobjetsjoueur($perso);
+    foreach ($objets as $objet){
+      $dataObject = [
+        'objectId' => $objet['idobjet'],
+        'name' => $objet['nom'],
+        'useId' => $objet['idobjetunique'],
+      ];
+      array_push($data,$dataObject);
+    }
+    return $data;
+  }
+  
+  /**
+   * Utilise un objet
+   * @param Perso $perso
+   * @return array
+   */
+  private function useobject(Perso $perso){
+    $object_id = !empty($_GET['objectid']) ? (int) $_GET['objectid'] : false;
+    if(!$object_id){
+      return ['erreur' => 'objet manquant'];
+    }
+    $objet = $this->persoManager->getobjet($perso,$object_id);
+    switch ($objet['idobjet']){
+      case 1:
+        // Globe magique - chgt en magicien
+        $perso->setTypeperso(2);
+        $this->persoManager->update($perso);
+        $message_perso = 'Le globe vous a transform&eacute; en magicien!';
+        $this->persoManager->message_console($perso,$message_perso);
+        $this->persoManager->deleteobjet($object_id);
+        break;
+      case 3:
+        // potion de guerison
+        $perso->recuperer();
+        $this->persoManager->update($perso);
+        $message_perso = 'Vous avez r&eacute;cuperer !';
+        $this->persoManager->message_console($perso,$message_perso);
+        $this->persoManager->deleteobjet($object_id);
+      default:
+        //rien ne se passe
+        
+    }
+    $data = ['retour' => 'success'];
     return $data;
   }
 }

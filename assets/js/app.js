@@ -131,7 +131,7 @@ function getcarte () {
 			}
 		});
 }
-function getmsg () {
+function getmsg () {/*
 	$.ajax({
 			url : "inventory.php",
 			type : 'POST',
@@ -141,7 +141,7 @@ function getmsg () {
 					$("#myinventory").html(html);
 				}
 			}
-		});
+		});*/
 }
 function refreshbot () {
 	$.ajax({
@@ -155,7 +155,7 @@ function refreshbot () {
 				}
 			}
 		});
-}
+}/*
 function useobject ($idobjet) {
 	$.ajax({
 			url : "play.php",
@@ -168,4 +168,4 @@ function useobject ($idobjet) {
 				}
 			}
 		});
-}
+}*/
