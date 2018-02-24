@@ -12,6 +12,11 @@ class ApiMapController
     $this->persoManager = new PersoManager();
   }
   
+  /**
+   * Renvoie la carte où se trouve le joueurs et les personnages qui s'y trouvent
+   * @param Perso $perso
+   * @return array
+   */
   public function getmap(Perso $perso){
     $data = [
       'map' => [],

@@ -1,10 +1,6 @@
 $(document).ready( function (){
 	console.log('init game');
-	getcarte();
 });
-setInterval (function(){
-	getcarte();
-},2000);
 setInterval (function(){
 	refreshbot();
 },1900);
@@ -20,7 +16,6 @@ $("#msgsendconsole").keydown(function(event){
 					if (html){
 						$("#msgsendconsole").val('');
 						$('.formsendmsg').css('display','none');
-						getcarte();
 					}
 				}
 			});
@@ -38,7 +33,6 @@ function sendaction(event)
 				data : 'agir=frapper',
 				success: function(html){
 					if (html){
-						getcarte();
 					}
 				}
 			});
@@ -50,7 +44,6 @@ function sendaction(event)
 				data : 'agir=endormir',
 				success: function(html){
 					if (html){
-						getcarte();
 					}
 				}
 			});
@@ -90,9 +83,7 @@ function moveon(direction){
 		data : 'direction=' + direction,
 		success: function(html){
 			if (html=='Success'){
-				getcarte();
 			} else if (html=='Passage') {
-				getcarte();
 				$("#porte").get(0).play();
 			} else {
 				$("#cantmove").get(0).play();
@@ -111,19 +102,6 @@ function resetconsole () {
 			}
 		});
 }
-function getcarte () {
-	/*
-	$.ajax({
-			url : "carte.php",
-			type : 'POST',
-			data : 'recherche=ok',
-			success: function(html){
-				if (html){
-					$("#cartedejeu").html(html);
-				}
-			}
-		});*/
-}
 function refreshbot () {
 	$.ajax({
 			url : "bot.php",
@@ -131,7 +109,6 @@ function refreshbot () {
 			data : 'get=bot',
 			success: function(html){
 				if (html){
-					getcarte();
 				}
 			}
 		});
