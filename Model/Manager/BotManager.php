@@ -10,6 +10,10 @@ class BotManager extends DatabaseManager
   }
   
   
+  /**
+   * @param $info
+   * @return bool|Bot
+   */
   public function getbot($info)
   {
     if (is_int($info))
