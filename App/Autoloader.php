@@ -20,6 +20,8 @@ class Autoloader
       require ('App/'.$class.'.php');
     } elseif(file_exists('Controller/'.$class.'.php')){
       require ('Controller/'.$class.'.php');
+    } elseif (file_exists('Model/Repository/'.$class.'.php')){
+      require ('Model/Repository/'.$class.'.php');
     } elseif (file_exists('Model/Manager/'.$class.'.php')){
       require ('Model/Manager/'.$class.'.php');
     } elseif (file_exists('View/'.$class.'.php')){

@@ -4,6 +4,8 @@
   Autoloader::register();
   $pid = (isset($_SESSION['pid'])) ? (int) $_SESSION['pid'] : false;
   $persoManager = new PersoManager();
+  $objectManager = new ObjectManager();
+  $messageManager = new MessageManager();
   $perso = $persoManager->get($pid);
   // @TODO : deplacer tout ça proprement dans un controller
 if (empty($pid))
@@ -68,12 +70,12 @@ if ( isset($_POST['message']))
 		if ($persoManager->placeprise($localisation,$coordx,$coordy))
 		{
 			$message_perso = 'Impossible de vous t&eacute;l&eacute;port&eacute; &agrave; cet endroit';
-			$persoManager->message_console($perso,$message_perso);
+      $messageManager->message_console($perso,$message_perso);
 		}
 		elseif ($perso->getLocalisation()!='C')
 		{
 			$message_perso = 'Impossible de vous t&eacute;l&eacute;port&eacute; depuis l\'int&eacute;rieur';
-			$persoManager->message_console($perso,$message_perso);
+      $messageManager->message_console($perso,$message_perso);
 		}
 		else
 		{
@@ -83,7 +85,7 @@ if ( isset($_POST['message']))
 			]);
       $persoManager->update($perso);
 			$message_perso = 'Vous avez &eacute;t&eacute; t&eacute;l&eacute;port&eacute; en '.$coordx.','.$coordy.'';
-			$persoManager->message_console($perso,$message_perso);
+      $messageManager->message_console($perso,$message_perso);
 		}
 	}
 	elseif (preg_match('#^/effect recovered @me$#',$message))
@@ -94,29 +96,29 @@ if ( isset($_POST['message']))
 		{
 			case 0 : 
 				$message_perso = 'Vous avez r&eacute;cuperer !';
-				$persoManager->message_console($perso,$message_perso);
+        $messageManager->message_console($perso,$message_perso);
 				$persoManager->update($perso);
 				echo 'guerison';
 				break;
 			case 1 : 
 				$message_perso = 'Aucun d&eacute;g&acirc;ts &agrave; soigner!';
-				$persoManager->message_console($perso,$message_perso);
+        $messageManager->message_console($perso,$message_perso);
 				echo 'Success';
 				break;
 			default : 
 				$message_perso = 'Erreur inconnue';
-				$persoManager->message_console($perso,$message_perso);
+        $messageManager->message_console($perso,$message_perso);
 				echo 'Success';
 		}
 	}
 	elseif (preg_match('#^/give @me more experience$#',$message))
 	{
 		$message_perso = 'Plus d\'exp&eacute;rience!';
-		$persoManager->message_console($perso,$message_perso);
+    $messageManager->message_console($perso,$message_perso);
 		if ($perso->gagnerexperience()==1 )
 		{
 			$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau().'';
-			$persoManager->message_console($perso,$message_perso);
+      $messageManager->message_console($perso,$message_perso);
 		}
 		$persoManager->update($perso);
 		echo 'Success';
@@ -126,7 +128,7 @@ if ( isset($_POST['message']))
 		$public = new Perso([
 			'id' => 0
 		]);
-		$persoManager->message_console($public,$message);	
+    $messageManager->message_console($public,$message);	
 	}
 	echo 'Success';
 }
@@ -154,12 +156,12 @@ elseif ( isset($_POST['restart']) AND $_POST['restart']=='ok')
 			]);
 		$persoManager->update($perso);
 		$message_perso = 'Bon retour &agrave; Narandor';
-		$persoManager->message_console($perso,$message_perso);
+    $messageManager->message_console($perso,$message_perso);
 	}
 }
 elseif ( isset($_POST['reset']) AND $_POST['reset']=='console')
 {
-	$persoManager->resetconsole($perso);
+	$messageManager->resetconsole($perso);
 	echo 'Success';
 
 }
@@ -228,7 +230,7 @@ elseif (isset($_POST['direction']) AND $perso->getEtat()=='alive')
 				break;
 			default : 
 				$message_perso = 'Erreur inconnue';
-				$persoManager->message_console($perso,$message_perso);
+        $messageManager->message_console($perso,$message_perso);
 				echo 'Success';
 		}
 	}
@@ -305,20 +307,20 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 					case 0 : 
 						$message_perso = $cible->getNom().' n\'a rien senti !';
 						$message_cible = $perso->getNom().' a tent&eacute; de vous frapper ... ';
-						$persoManager->message_console($perso,$message_perso);
-						$persoManager->message_console($cible,$message_cible);
+            $messageManager->message_console($perso,$message_perso);
+            $messageManager->message_console($cible,$message_cible);
 						$persoManager->update($perso);
 						$persoManager->update($cible);
 						break;
 					case 1 : 
 						$message_perso = 'Vous avez frapp&eacute; '.$cible->getNom();
 						$message_cible = $perso->getNom(). ' vous a frapp&eacute; !';
-						$persoManager->message_console($perso,$message_perso);
-						$persoManager->message_console($cible,$message_cible);
+            $messageManager->message_console($perso,$message_perso);
+            $messageManager->message_console($cible,$message_cible);
 						if ($perso->gagnerexperience()==1 )
 						{
 							$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau();
-							$persoManager->message_console($perso,$message_perso);
+              $messageManager->message_console($perso,$message_perso);
 						}
 						$persoManager->update($perso);
 						$persoManager->update($cible);
@@ -326,31 +328,31 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 					case 2 : 
 						$message_perso = 'Vous avez tu&eacute; '.$cible->getNom();
 						$message_cible = $perso->getNom().' vous a tu&eacute; !';
-						$persoManager->message_console($perso,$message_perso);
-						$persoManager->message_console($cible,$message_cible);
+            $messageManager->message_console($perso,$message_perso);
+            $messageManager->message_console($cible,$message_cible);
 						if ($perso->gagnerexperience()==1 )
 						{
 							$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau();
-							$persoManager->message_console($perso,$message_perso);
+              $messageManager->message_console($perso,$message_perso);
 						}
 						$persoManager->update($perso);
 						$persoManager->update($cible);
 						break;
 					case 3 : 
 						$message_perso = 'Il est interdit de frapper les enfants!';
-						$persoManager->message_console($perso,$message_perso);
+            $messageManager->message_console($perso,$message_perso);
 						break;
 					case 5 : 
 						$message_perso = 'Mais ... pourquoi voulez-vous vous frapper ?';
-						$persoManager->message_console($perso,$message_perso);
+            $messageManager->message_console($perso,$message_perso);
 						break;
 					case 6 : 
 						$message_perso = 'Personne &agrave; frapper !';
-						$persoManager->message_console($perso,$message_perso);
+            $messageManager->message_console($perso,$message_perso);
 						break;
 					default : 
 						$message_perso = 'Erreur inconnue';
-						$persoManager->message_console($perso,$message_perso);
+            $messageManager->message_console($perso,$message_perso);
 				}
 			}
 			elseif ($_POST['agir']=='endormir')
@@ -359,33 +361,33 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 				{
 					case 0 : 
 						$message_perso = $cible->getNom().' est d&eacute;j&agrave; endormi !';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 						$persoManager->update($perso);
 						break;
 					case 1 : 
 						$message_perso = 'Vous avez endormi '.$cible->getNom();
 						$message_cible = $perso->getNom(). ' vous a endormi !';
-						$persoManager->message_console($perso,$message_perso);
-						$persoManager->message_console($cible,$message_cible);
+						$messageManager->message_console($perso,$message_perso);
+						$messageManager->message_console($cible,$message_cible);
 						$persoManager->update($perso);
 						$persoManager->update($cible);
 						break;
 					case 2 : 
 						$message_perso = 'Vous n\'avez pas assez de magie pour endormir '.$cible->getNom();
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 						$persoManager->update($perso);
 						break;
 					case 3 : 
 						$message_perso = 'Mais ... pourquoi voulez-vous vous endormir ?';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 						break;
 					case 4 : 
 						$message_perso = 'Personne &agrave; endormir !';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 						break;
 					default : 
 						$message_perso = 'Erreur inconnue';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 				}
 			}
 			echo 'Success';
@@ -398,23 +400,23 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 			{
 				case 0 : 
 					$message_perso = 'Vous avez r&eacute;cuperer !';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					if ($perso->gagnerexperience()==1 )
 					{
 						$message_perso = 'Bravo, vous passez au niveau '.$perso->getNiveau().'';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 					}
 					$persoManager->update($perso);
 					echo 'guerison';
 					break;
 				case 1 : 
 					$message_perso = 'Mmmm ... cette eau est bonne';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					echo 'Success';
 					break;
 				default : 
 					$message_perso = 'Erreur inconnue';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					echo 'Success';
 			}
 		}
@@ -422,10 +424,10 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 		{
 			$retour = $perso->ouvrircoffre();
 			
-			if ($persoManager->isfullinventory($perso))
+			if ($objectManager->isfullinventory($perso))
 			{
 				$message_perso = 'Votre inventaire est plein !';
-				$persoManager->message_console($perso,$message_perso);
+				$messageManager->message_console($perso,$message_perso);
 				$persoManager->update($perso);
 				echo 'Success';
 			}
@@ -435,25 +437,25 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 				{
 					case 0 : 
 						$message_perso = 'Ce coffre contient .... rien !';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 						$persoManager->update($perso);
 						echo 'Success';
 						break;
 					case 1 : 
 						$message_perso = 'Ouah! Un globe magique!';
-						$persoManager->message_console($perso,$message_perso);
-						$persoManager->addobjet($perso,1);
+						$messageManager->message_console($perso,$message_perso);
+						$objectManager->addobjet($perso,1);
 						echo 'Success';
 						break;
 					case 3 : 
 						$message_perso = 'Ouah! Une potion de guerison !';
-						$persoManager->message_console($perso,$message_perso);
-						$persoManager->addobjet($perso,3);
+						$messageManager->message_console($perso,$message_perso);
+            $objectManager->addobjet($perso,3);
 						echo 'Success';
 						break;
 					default : 
 						$message_perso = 'Erreur inconnue';
-						$persoManager->message_console($perso,$message_perso);
+						$messageManager->message_console($perso,$message_perso);
 						echo 'Success';
 				}
 			}
@@ -464,51 +466,51 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 			{
 				case 10 : 
 					$message_perso = 'Tu m\'as l\'air bien fatigu&eacute;! Reposes toi un peu';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					$perso->recuperer();
 					$persoManager->update($perso);
 					echo 'Success';
 					break;
 				case 11 : 
 					$message_perso = 'Tu m\'as l\'air bien en forme !';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					echo 'Success';
 					break;
 				case 12 : 
 					$message_perso = 'Tu es bien plus en forme que moi !';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					echo 'Success';
 					break;
 				case 40 : 
 					$message_perso = 'Qui est tu donc pour t\'adresser &agrave; moi!';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					$persoManager->update($perso);
 					echo 'Success';
 					break;
 				case 41 : 
 					$message_perso = 'Voil&agrave; pour toi!';
 					$message_perso_suite = 'Avec ceci, tu deviendra un grand magicien!';
-					$persoManager->message_console($perso,$message_perso);
-					$persoManager->message_console($perso,$message_perso_suite);
-					$persoManager->addobjet($perso,1);
+					$messageManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso_suite);
+          $objectManager->addobjet($perso,1);
 					$persoManager->update($perso);
 					echo 'Success';
 					break;
 				case 42 : 
 					$message_perso = 'tu es un guerrier Sors de chez moi !';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					$persoManager->update($perso);
 					echo 'Success';
 					break;
 				case 43 : 
 					$message_perso = 'Tu es un grand magicien! Bravo !';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					$persoManager->update($perso);
 					echo 'Success';
 					break;
 				default : 
 					$message_perso = 'Erreur inconnue';
-					$persoManager->message_console($perso,$message_perso);
+					$messageManager->message_console($perso,$message_perso);
 					echo 'Success';
 			}
 
@@ -518,7 +520,7 @@ elseif (isset($_POST['agir']) AND $perso->getEtat()=='alive')
 elseif (isset($_POST['use']) AND $perso->getEtat()=='alive')
 {
 	$idobjetunique = (int) $_POST['use'];
-	$objet = $persoManager->getobjet($perso,$idobjetunique);
+	$objet = $objectManager->getobjet($perso,$idobjetunique);
 	$idobjet = (int) $objet['idobjet'];
 	switch($idobjet)
 	{
@@ -527,8 +529,8 @@ elseif (isset($_POST['use']) AND $perso->getEtat()=='alive')
 			$perso->setTypeperso(2);
 			$persoManager->update($perso);
 			$message_perso = 'Le globe vous a transform&eacute; en magicien!';
-			$persoManager->message_console($perso,$message_perso);
-			$persoManager->deleteobjet($idobjetunique);
+			$messageManager->message_console($perso,$message_perso);
+      $objectManager->deleteobjet($idobjetunique);
 			echo 'Success';
 		break;
 		case 3 :
@@ -536,8 +538,8 @@ elseif (isset($_POST['use']) AND $perso->getEtat()=='alive')
 			$perso->recuperer();
 			$persoManager->update($perso);
 			$message_perso = 'Vous avez r&eacute;cuperer !';
-			$persoManager->message_console($perso,$message_perso);
-			$persoManager->deleteobjet($idobjetunique);
+			$messageManager->message_console($perso,$message_perso);
+      $objectManager->deleteobjet($idobjetunique);
 			echo 'Success';
 		break;
 		default:

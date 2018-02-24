@@ -3,9 +3,11 @@
 class GameController extends Controller
 {
   public function run(){
-    $manager = new PersoManager();
+    $persoManager = new PersoManager();
+    $objectManager = new ObjectManager();
     $userManager = new UserManager();
-    $manager->insertvisite();
+    $messageManager = new MessageManager();
+    $persoManager->insertvisite();
     $perso = $userManager->getUser();
     if (empty($perso))
     {
@@ -19,7 +21,7 @@ class GameController extends Controller
       {
         $x = 1 ;
         $y = 1 ;
-        while ($manager->placeprise('C',$x,$y))
+        while ($persoManager->placeprise('C',$x,$y))
         {
           $x = rand(1,9);
           $y = rand(1,9);
@@ -35,8 +37,8 @@ class GameController extends Controller
           'degats' => 0,
           'special' => 1
         ]);
-        $manager->viderinventaire($perso);
-        $manager->update($perso);
+        $objectManager->viderinventaire($perso);
+        $persoManager->update($perso);
       }
       
       header('Location: index.php?action=game');
@@ -45,7 +47,7 @@ class GameController extends Controller
     
     if ( isset($_GET['reset']) AND $_GET['reset']=='console')
     {
-      $manager->resetconsole($perso);
+      $messageManager->resetconsole($perso);
       header('Location: index.php?action=game');
       exit;
     }

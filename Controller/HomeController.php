@@ -5,6 +5,7 @@ class HomeController extends Controller
     public function run(){
       // creation du manager
       $manager = new PersoManager();
+      $messageManager = new MessageManager();
       $userManager = new UserManager();
       $perso = $userManager->getUser();
       if(!empty($perso))
@@ -65,7 +66,7 @@ class HomeController extends Controller
           $_SESSION['pid'] = $perso->getId();
           $retouroubienvenue = ($retour) ? 'Bon retour' : 'Bienvenue';
           $message_perso = $retouroubienvenue.' &agrave; Narandor' ;
-          $manager->message_console($perso,$message_perso);
+          $messageManager->message_console($perso,$message_perso);
           header('Location: index.php?action=game');
           exit;
         }

@@ -4,6 +4,8 @@ class ApiController
 {
   private $persoManager;
   private $userManager;
+  private $objectManager;
+  private $messageManager;
   private $apiMapController;
   private $apiBotController;
   
@@ -15,6 +17,8 @@ class ApiController
     //Manager
     $this->userManager = new UserManager();
     $this->persoManager = new PersoManager();
+    $this->objectManager = new ObjectManager();
+    $this->messageManager = new MessageManager();
     //Sub-Controller
     $this->apiMapController = new ApiMapController();
     $this->apiBotController = new ApiBotController();
@@ -89,7 +93,7 @@ class ApiController
    */
   private function getmsg(Perso $perso){
     $data = [];
-    if($messages = $this->persoManager->recup_console($perso)){
+    if($messages = $this->messageManager->recup_console($perso)){
       foreach ($messages as $message){
         $data_msg = [
           'exp' => $message['id_perso'],
@@ -110,7 +114,7 @@ class ApiController
   private function getinventory(Perso $perso){
     $data = [];
     // on recup les objets du joueur
-    $objets = $this->persoManager->getobjetsjoueur($perso);
+    $objets = $this->objectManager->getobjetsjoueur($perso);
     foreach ($objets as $objet){
       $dataObject = [
         'objectId' => $objet['idobjet'],
@@ -132,23 +136,23 @@ class ApiController
     if(!$object_id){
       return ['erreur' => 'objet manquant'];
     }
-    $objet = $this->persoManager->getobjet($perso,$object_id);
+    $objet = $this->objectManager->getobjet($perso,$object_id);
     switch ($objet['idobjet']){
       case 1:
         // Globe magique - chgt en magicien
         $perso->setTypeperso(2);
         $this->persoManager->update($perso);
         $message_perso = 'Le globe vous a transform&eacute; en magicien!';
-        $this->persoManager->message_console($perso,$message_perso);
-        $this->persoManager->deleteobjet($object_id);
+        $this->messageManager->message_console($perso,$message_perso);
+        $this->objectManager->deleteobjet($object_id);
         break;
       case 3:
         // potion de guerison
         $perso->recuperer();
         $this->persoManager->update($perso);
         $message_perso = 'Vous avez r&eacute;cuperer !';
-        $this->persoManager->message_console($perso,$message_perso);
-        $this->persoManager->deleteobjet($object_id);
+        $this->messageManager->message_console($perso,$message_perso);
+        $this->objectManager->deleteobjet($object_id);
       default:
         //rien ne se passe
         

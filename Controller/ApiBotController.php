@@ -17,11 +17,13 @@ class ApiBotController
   //manager
   private $botManager;
   private $persoManager;
+  private $messageManager;
   
   public function __construct()
   {
     $this->botManager = new BotManager();
     $this->persoManager = new PersoManager();
+    $this->messageManager = new MessageManager();
   }
   
   /**
@@ -209,17 +211,17 @@ class ApiBotController
     {
       case 0 :
         $message_cible = $bot->getNom().' a tent&eacute; de vous frapper ... ';
-        $this->persoManager->message_console($player,$message_cible);
+        $this->messageManager->message_conole($player,$message_cible);
         $this->persoManager->update($player);
         break;
       case 1 :
         $message_cible = $bot->getNom(). ' vous a frapp&eacute; !';
-        $this->persoManager->message_console($player,$message_cible);
+        $this->messageManager->message_conole($player,$message_cible);
         $this->persoManager->update($player);
         break;
       case 2 :
         $message_cible = $bot->getNom().' vous a tu&eacute; !';
-        $this->persoManager->message_console($player,$message_cible);
+        $this->messageManager->message_conole($player,$message_cible);
         $this->persoManager->update($player);
         break;
       default :
