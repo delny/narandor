@@ -82,12 +82,12 @@ h1
 {
 	width:320px;
 }
-.map div
+.cartedejeu, .cartedejeu #mapimg
 {
 	width:500px;
 	height:500px;
 }
-.map div, .map
+.cartedejeu, .map
 {
 	position:relative;
 }

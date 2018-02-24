@@ -61,7 +61,14 @@ $titre = WEBSITE_TITLE.' -- Accueil';
     </fieldset>
     <fieldset class="map" >
       <legend>Carte de jeu</legend>
-      <div id="cartedejeu">
+      <div class="cartedejeu">
+        <div id="mapimg">
+          <div ng-repeat="perso in persos">
+            <span class="perso" style="top:{{ perso.posY }}px;left:{{ perso.posX }}px;background:url(assets/img/profiles/{{ perso.type }}_{{ perso.direction }}.png);">
+              {{ perso.name }}
+            </span>
+          </div>
+        </div>
       </div>
       <div class="formsendmsg" style="display:none;">
         Appuyer sur Entr&eacute;e pour envoyer un message

@@ -4,14 +4,18 @@ class ApiController
 {
   private $persoManager;
   private $userManager;
+  private $apiMapController;
   
   /**
    * ApiController constructor.
    */
   public function __construct()
   {
+    //Manager
     $this->userManager = new UserManager();
     $this->persoManager = new PersoManager();
+    //Sub-Controller
+    $this->apiMapController = new ApiMapController();
   }
   
   /**
@@ -30,7 +34,9 @@ class ApiController
     
     if(method_exists($this,$apiMethod)){
       $data = $this->$apiMethod($perso);
-    }else{
+    }elseif (method_exists($this->apiMapController,$apiMethod)) {
+      $data = $this->apiMapController->$apiMethod($perso);
+    }else {
       echo json_encode(['erreur' => 'appel inconnu']);
     }
     

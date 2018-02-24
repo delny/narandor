@@ -6,11 +6,13 @@ angular.module('myApp')
     getStatut();
     getMsg();
     getInventory();
+    getMap();
   });
   setInterval (function(){
     getStatut();
     getMsg();
     getInventory();
+    getMap();
   },2000);
 
   var getStatut = function () {
@@ -28,6 +30,15 @@ angular.module('myApp')
   var getMsg = function () {
     $http.get('/index.php?action=api&call=getmsg').then(function (value) {
       $scope.messages = value.data;
+    });
+  };
+
+  var getMap = function () {
+    $http.get('/index.php?action=api&call=getmap').then(function (value) {
+      $scope.persos = value.data.persos;
+      var mapId = value.data.map.mapId;
+      var imageUlr = 'assets/img/maps/' + mapId + '.png';
+      $("#mapimg").css('background','url(' + imageUlr + ')');
     });
   };
 

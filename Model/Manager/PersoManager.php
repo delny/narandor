@@ -9,7 +9,7 @@ Class PersoManager extends DatabaseManager
 	{
 		$this->_bdd = parent::getBDD();
 		$this->dateManager = new DateManager();
-		$this->carteManager = new CarteManager();
+		$this->carteManager = new MapManager();
 	}
 
   /*----------*/

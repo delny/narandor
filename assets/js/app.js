@@ -21,7 +21,6 @@ $("#msgsendconsole").keydown(function(event){
 						$("#msgsendconsole").val('');
 						$('.formsendmsg').css('display','none');
 						getcarte();
-						getmsg();
 					}
 				}
 			});
@@ -40,7 +39,6 @@ function sendaction(event)
 				success: function(html){
 					if (html){
 						getcarte();
-						getmsg();
 					}
 				}
 			});
@@ -53,7 +51,6 @@ function sendaction(event)
 				success: function(html){
 					if (html){
 						getcarte();
-						getmsg();
 					}
 				}
 			});
@@ -94,10 +91,8 @@ function moveon(direction){
 		success: function(html){
 			if (html=='Success'){
 				getcarte();
-				getmsg();
 			} else if (html=='Passage') {
 				getcarte();
-				getmsg();
 				$("#porte").get(0).play();
 			} else {
 				$("#cantmove").get(0).play();
@@ -112,12 +107,12 @@ function resetconsole () {
 			data : 'reset=console',
 			success: function(html){
 				if (html){
-					getmsg();
 				}
 			}
 		});
 }
 function getcarte () {
+	/*
 	$.ajax({
 			url : "carte.php",
 			type : 'POST',
@@ -127,7 +122,7 @@ function getcarte () {
 					$("#cartedejeu").html(html);
 				}
 			}
-		});
+		});*/
 }
 function refreshbot () {
 	$.ajax({
@@ -137,7 +132,6 @@ function refreshbot () {
 			success: function(html){
 				if (html){
 					getcarte();
-					getmsg();
 				}
 			}
 		});
