@@ -1,11 +1,9 @@
 $(document).ready( function (){
 	console.log('init game');
 	getcarte();
-	getmsg();
 });
 setInterval (function(){
 	getcarte();
-	getmsg();
 },2000);
 setInterval (function(){
 	refreshbot();
@@ -131,18 +129,6 @@ function getcarte () {
 			}
 		});
 }
-function getmsg () {/*
-	$.ajax({
-			url : "inventory.php",
-			type : 'POST',
-			data : 'get=inventory',
-			success: function(html){
-				if (html){
-					$("#myinventory").html(html);
-				}
-			}
-		});*/
-}
 function refreshbot () {
 	$.ajax({
 			url : "bot.php",
@@ -155,17 +141,4 @@ function refreshbot () {
 				}
 			}
 		});
-}/*
-function useobject ($idobjet) {
-	$.ajax({
-			url : "play.php",
-			type : 'POST',
-			data : 'use=' + $idobjet,
-			success: function(html){
-				if (html){
-					getcarte();
-					getmsg();
-				}
-			}
-		});
-}*/
+}
