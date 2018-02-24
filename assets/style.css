@@ -179,28 +179,26 @@ h1
 .msginfo{
 	color:rgb(34,177,76);
 }
-#myinventory
-{
+.myinventory {
 	text-align:left;
 	width:218px;
 	height:130px;
 }
-#myinventory div
-{
-	position:absolute;
+.myinventory .container{
+	background:url(img/objets/inventory.png);
+	display: flex;
+	flex-wrap: wrap;
 	width:218px;
 	height:110px;
 	margin:0px auto;
 	padding:0px;
 }
-.objet
-{
+.objet {
 	display:inline-block;
 	cursor:pointer;
 	width:40px;
 	height:40px;
-	position:absolute;
-	z-index:2;
+	margin: 8px 7px;
 	color:white;
 	font-size:8px;
 	text-align:left;

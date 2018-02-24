@@ -33,8 +33,14 @@ $titre = WEBSITE_TITLE.' -- Accueil';
             </div>
           </div>
           <hr>
-          <div id="myinventory">
-            Chargement en cours...
+          <div class="myinventory">
+            <div class="container">
+              <div ng-repeat="objet in objets">
+                <span class="objet" title="cliquez pour utiliser" ng-click="useObject(objet.useId)" style="background:url(assets/img/objets/objet{{ objet.objectId }}.png);">
+                  {{ objet.name }}
+                </span>
+              </div>
+            </div>
           </div>
           <hr>
           <div class="commandes">
