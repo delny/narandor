@@ -201,6 +201,7 @@ class ApiBotController
   private function botAttackPlayer(Bot $bot, Perso $player){
     if ($player->getEtat()=='alive')
     {
+      $_SESSION['pikachu'] = 'on attaque';
       $retour = $bot->frapper($player);
     }
     else
@@ -211,17 +212,17 @@ class ApiBotController
     {
       case 0 :
         $message_cible = $bot->getNom().' a tent&eacute; de vous frapper ... ';
-        $this->messageManager->message_conole($player,$message_cible);
+        $this->messageManager->message_console($player,$message_cible);
         $this->persoManager->update($player);
         break;
       case 1 :
         $message_cible = $bot->getNom(). ' vous a frapp&eacute; !';
-        $this->messageManager->message_conole($player,$message_cible);
+        $this->messageManager->message_console($player,$message_cible);
         $this->persoManager->update($player);
         break;
       case 2 :
         $message_cible = $bot->getNom().' vous a tu&eacute; !';
-        $this->messageManager->message_conole($player,$message_cible);
+        $this->messageManager->message_console($player,$message_cible);
         $this->persoManager->update($player);
         break;
       default :

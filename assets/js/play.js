@@ -6,15 +6,14 @@ angular.module('myApp')
     getAll();
   });
   setInterval (function(){
-    getAll();
-  },2000);
+    refreshBot();
+  },2500);
 
   var getAll = function () {
     getStatut();
     getMsg();
     getInventory();
     getMap();
-    refreshBot();
   };
   
   var getStatut = function () {
@@ -38,9 +37,11 @@ angular.module('myApp')
   var getMap = function () {
     $http.get('/index.php?action=api&call=getmap').then(function (value) {
       $scope.persos = value.data.persos;
-      var mapId = value.data.map.mapId;
-      var imageUlr = 'assets/img/maps/' + mapId + '.png';
-      $("#mapimg").css('background','url(' + imageUlr + ')');
+      if(value.data && value.data.map && value.data.map.mapId){
+        var mapId = value.data.map.mapId;
+        var imageUlr = 'assets/img/maps/' + mapId + '.png';
+        $("#mapimg").css('background','url(' + imageUlr + ')');
+      }
     });
   };
 
@@ -110,7 +111,7 @@ angular.module('myApp')
     $http.get('/index.php?action=api&call=move&direction=' + direction).then(function (value) {
       if(value.data && value.data.retour && value.data.retour == 'success'){
         getAll();
-      }else if(value.data && value.data.retour && value.data.retour == 'passage'){
+      }else if(value.data && value.data.retour && value.data.retour == 'Passage'){
         getAll();
         $("#porte").get(0).play();
       }

@@ -333,7 +333,7 @@ class ApiActionController
     else
     {
       // on cree le fichier
-      $new_fichier = fopen('tmp/'.$perso->getId().'.tmp','a+');
+      $new_fichier = fopen('tmp/act'.$perso->getId().'.tmp','a+');
       fputs($new_fichier,time().';1');
       fclose($new_fichier);
       return true;

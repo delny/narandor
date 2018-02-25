@@ -35,8 +35,8 @@ $titre = WEBSITE_TITLE.' -- Accueil';
           <hr>
           <div class="myinventory">
             <div class="container">
-              <div ng-repeat="objet in objets">
-                <span class="objet" title="cliquez pour utiliser" ng-click="useObject(objet.useId)" style="background:url(assets/img/objets/objet{{ objet.objectId }}.png);">
+              <div ng-repeat="objet in objets track by $index">
+                <span ng-if="objet.objectId" class="objet" title="cliquez pour utiliser" ng-click="useObject(objet.useId)" style="background:url(assets/img/objets/objet{{ objet.objectId }}.png);">
                   {{ objet.name }}
                 </span>
               </div>
@@ -53,7 +53,7 @@ $titre = WEBSITE_TITLE.' -- Accueil';
             <span ng-click="resetConsole()" title="Effacer la console" style="cursor:pointer;"></span>
           </div>
           <div class="msglist">
-            <div ng-repeat="message in messages">
+            <div ng-repeat="message in messages track by $index">
               <p ng-class="{msginfo : message.exp == 0}">{{ message.date }} :{{ message.contenu }}</p>
             </div>
           </div>
@@ -63,7 +63,7 @@ $titre = WEBSITE_TITLE.' -- Accueil';
       <legend>Carte de jeu</legend>
       <div class="cartedejeu">
         <div id="mapimg">
-          <div ng-repeat="perso in persos">
+          <div ng-repeat="perso in persos track by $index">
             <span class="perso" style="top:{{ perso.posY }}px;left:{{ perso.posX }}px;background:url(assets/img/profiles/{{ perso.type }}_{{ perso.direction }}.png);">
               {{ perso.name }}
             </span>
