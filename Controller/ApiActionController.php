@@ -191,18 +191,16 @@ class ApiActionController
           $this->messageManager->message_console($perso,$message_perso);
         }
         $this->persoManager->update($perso);
-        return ['retour' => 'guerison'];
         break;
       case 1 :
         $message_perso = 'Mmmm ... cette eau est bonne';
         $this->messageManager->message_console($perso,$message_perso);
-        return ['retour' => 'success'];
         break;
       default :
         $message_perso = 'Erreur inconnue';
         $this->messageManager->message_console($perso,$message_perso);
-        return ['retour' => 'success'];
     }
+    return ['retour' => 'success'];
     
   }
   

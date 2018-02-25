@@ -7,7 +7,7 @@ angular.module('myApp')
   });
   setInterval (function(){
     getAll();
-  },1500);
+  },2000);
 
   var getAll = function () {
     getStatut();
@@ -74,13 +74,24 @@ angular.module('myApp')
   
   /* Gestion actions/déplacements */
   $scope.action = function (event) {
-    console.log(event.keyCode);
     switch (event.keyCode){
       case 13:
         act('hit');
         break;
       case 83:
         act('sleep');
+        break;
+      case 37:
+        move('gauche');
+        break;
+      case 38:
+        move('haut');
+        break;
+      case 39:
+        move('droite');
+        break;
+      case 40:
+        move('bas');
         break;
       default:
         console.log('Erreur : Aucune action ne correspond à cette touche');
@@ -94,5 +105,19 @@ angular.module('myApp')
       }
     });
   };
+
+  var move = function (direction) {
+    $http.get('/index.php?action=api&call=move&direction=' + direction).then(function (value) {
+      if(value.data && value.data.retour && value.data.retour == 'success'){
+        getAll();
+      }else if(value.data && value.data.retour && value.data.retour == 'passage'){
+        getAll();
+        $("#porte").get(0).play();
+      }
+      else if(value.data && value.data.retour && value.data.retour == 'fail'){
+        $("#cantmove").get(0).play();
+      }
+    });
+  }
 
 });

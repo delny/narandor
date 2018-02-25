@@ -9,6 +9,7 @@ class ApiController
   private $apiActionController;
   private $apiBotController;
   private $apiMapController;
+  private $apiMoveController;
   
   /**
    * ApiController constructor.
@@ -24,6 +25,7 @@ class ApiController
     $this->apiActionController  = new ApiActionController();
     $this->apiBotController     = new ApiBotController();
     $this->apiMapController     = new ApiMapController();
+    $this->apiMoveController    = new ApiMoveController();
   }
   
   /**
@@ -51,6 +53,8 @@ class ApiController
       $data = $this->apiBotController->$apiMethod($perso);
     }elseif (method_exists($this->apiMapController,$apiMethod)) {
       $data = $this->apiMapController->$apiMethod($perso);
+    }elseif (method_exists($this->apiMoveController,$apiMethod)) {
+      $data = $this->apiMoveController->$apiMethod($perso);
     }else {
       echo json_encode(['erreur' => 'appel inconnu']);
     }
