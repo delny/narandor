@@ -8,7 +8,7 @@ $titre = WEBSITE_TITLE.' -- Accueil';
 
   <div style="color:#3782F2;position:absolute;top:0px;left:0px;" ><a href="../index.php">Anthonydelgado.fr ©</a></div>
   <h1>Narandor (version 0.7)</h1>
-  <div class="corps" ng-controller="playCtrl">
+  <div class="corps" ng-controller="playCtrl" ng-keydown="action($event)" tabindex="0">
     <fieldset class="dashboard">
       <legend>Tableau de bord</legend>
       <div class="dbcontent">

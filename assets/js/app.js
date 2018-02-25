@@ -22,7 +22,7 @@ $("#msgsendconsole").keydown(function(event){
 function sendaction(event)
 {
 	switch(event.keyCode)
-	{
+	{/*
 		case 13 :
 			$.ajax({
 				url : "play.php",
@@ -33,7 +33,7 @@ function sendaction(event)
 					}
 				}
 			});
-			break;
+			break;*/
 		case 83 :
 			$.ajax({
 				url : "play.php",

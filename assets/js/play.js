@@ -3,20 +3,20 @@ angular.module('myApp')
 
   console.log('init play controller');
   $(document).ready(function () {
-    getStatut();
-    getMsg();
-    getInventory();
-    getMap();
-    refreshBot();
+    getAll();
   });
   setInterval (function(){
+    getAll();
+  },1500);
+
+  var getAll = function () {
     getStatut();
     getMsg();
     getInventory();
     getMap();
     refreshBot();
-  },1500);
-
+  };
+  
   var getStatut = function () {
     $http.get('/index.php?action=api&call=getstatut').then(function (value) {
       $scope.user = value.data;
@@ -68,6 +68,29 @@ angular.module('myApp')
     $http.get('/index.php?action=api&call=resetconsole').then(function (value) {
       if(value.data && value.data.retour && value.data.retour == 'success'){
         getMsg();
+      }
+    });
+  };
+  
+  /* Gestion actions/déplacements */
+  $scope.action = function (event) {
+    console.log(event.keyCode);
+    switch (event.keyCode){
+      case 13:
+        act('hit');
+        break;
+      case 83:
+        act('sleep');
+        break;
+      default:
+        console.log('Erreur : Aucune action ne correspond à cette touche');
+    }
+  };
+
+  var act = function (action) {
+    $http.get('/index.php?action=api&call=act&act=' + action).then(function (value) {
+      if(value.data && value.data.retour && value.data.retour == 'success'){
+        getAll();
       }
     });
   };

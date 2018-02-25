@@ -6,8 +6,9 @@ class ApiController
   private $userManager;
   private $objectManager;
   private $messageManager;
-  private $apiMapController;
+  private $apiActionController;
   private $apiBotController;
+  private $apiMapController;
   
   /**
    * ApiController constructor.
@@ -15,13 +16,14 @@ class ApiController
   public function __construct()
   {
     //Manager
-    $this->userManager = new UserManager();
-    $this->persoManager = new PersoManager();
-    $this->objectManager = new ObjectManager();
+    $this->userManager    = new UserManager();
+    $this->persoManager   = new PersoManager();
+    $this->objectManager  = new ObjectManager();
     $this->messageManager = new MessageManager();
     //Sub-Controller
-    $this->apiMapController = new ApiMapController();
-    $this->apiBotController = new ApiBotController();
+    $this->apiActionController  = new ApiActionController();
+    $this->apiBotController     = new ApiBotController();
+    $this->apiMapController     = new ApiMapController();
   }
   
   /**
@@ -38,8 +40,13 @@ class ApiController
       echo json_encode(['erreur' => 'appel inconnu']);
     }
     
+    /* A chaque appel, on gère les personnes endormis */
+    $this->persoManager->updatesleeppeople();
+    
     if(method_exists($this,$apiMethod)){
       $data = $this->$apiMethod($perso);
+    }elseif (method_exists($this->apiActionController,$apiMethod)) {
+      $data = $this->apiActionController->$apiMethod($perso);
     }elseif (method_exists($this->apiBotController,$apiMethod)) {
       $data = $this->apiBotController->$apiMethod($perso);
     }elseif (method_exists($this->apiMapController,$apiMethod)) {
