@@ -7,7 +7,7 @@ angular.module('myApp')
   });
   setInterval (function(){
     refreshBot();
-  },2500);
+  },2000);
 
   var getAll = function () {
     getStatut();

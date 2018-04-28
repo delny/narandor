@@ -8,6 +8,7 @@ class ApiController
   private $messageManager;
   private $apiActionController;
   private $apiBotController;
+  private $apiConsoleController;
   private $apiMapController;
   private $apiMoveController;
   
@@ -24,6 +25,7 @@ class ApiController
     //Sub-Controller
     $this->apiActionController  = new ApiActionController();
     $this->apiBotController     = new ApiBotController();
+    $this->apiConsoleController    = new ApiConsoleController();
     $this->apiMapController     = new ApiMapController();
     $this->apiMoveController    = new ApiMoveController();
   }
@@ -51,6 +53,8 @@ class ApiController
       $data = $this->apiActionController->$apiMethod($perso);
     }elseif (method_exists($this->apiBotController,$apiMethod)) {
       $data = $this->apiBotController->$apiMethod($perso);
+    }elseif (method_exists($this->apiConsoleController,$apiMethod)) {
+      $data = $this->apiConsoleController->$apiMethod($perso);
     }elseif (method_exists($this->apiMapController,$apiMethod)) {
       $data = $this->apiMapController->$apiMethod($perso);
     }elseif (method_exists($this->apiMoveController,$apiMethod)) {

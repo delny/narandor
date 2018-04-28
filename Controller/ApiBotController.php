@@ -201,7 +201,6 @@ class ApiBotController
   private function botAttackPlayer(Bot $bot, Perso $player){
     if ($player->getEtat()=='alive')
     {
-      $_SESSION['pikachu'] = 'on attaque';
       $retour = $bot->frapper($player);
     }
     else
