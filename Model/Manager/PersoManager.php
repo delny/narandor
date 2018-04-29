@@ -433,6 +433,41 @@ Class PersoManager extends DatabaseManager
 		}
 	}
 	
+	public function updatemagiccount(Magicien $perso)
+  {
+    $regenerermagie = false;
+    if ($perso->getTypeperso()==2)
+    {
+      if (file_exists('tmp/magic'.$perso->getId().'.tmp'))// on regarde si le fchier tmp existe et si oui on l'ouvre
+      {
+        $fichier = fopen('tmp/magic'.$perso->getId().'.tmp','r+');
+        $donnees_fichier = fgets($fichier);
+      
+        if (time() -  $donnees_fichier > 5)
+        {
+          fseek($fichier,0);
+          fputs($fichier,time());
+          fclose($fichier);
+          $regenerermagie = true;
+        }
+      }
+      else
+      {
+        // on cree le fichier
+        $new_fichier = fopen('tmp/magic'.$perso->getId().'.tmp','a+');
+        fputs($new_fichier,time());
+        fclose($new_fichier);
+        $regenerermagie = true;
+      }
+    
+      if ($regenerermagie)
+      {
+        $perso->regenerermagie();
+        $this->update($perso);
+      }
+    }
+  }
+	
 	/////////
 	/* BOT */
 	/////////

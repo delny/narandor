@@ -46,6 +46,8 @@ class ApiController
     
     /* A chaque appel, on gère les personnes endormis */
     $this->persoManager->updatesleeppeople();
+    /* A chaque appel, on gère la réserve de magie de la personne connectée */
+    $this->persoManager->updatemagiccount($perso);
     
     if(method_exists($this,$apiMethod)){
       $data = $this->$apiMethod($perso);
