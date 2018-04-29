@@ -1,6 +1,7 @@
 $(document).ready( function (){
 	console.log('init game');
 });
+/*
 $("#msgsendconsole").keydown(function(event){
 	switch(event.keyCode)
 	{
@@ -18,7 +19,7 @@ $("#msgsendconsole").keydown(function(event){
 			});
 			break;
 	}
-});
+});*/
 function sendaction(event)
 {
 	switch(event.keyCode)

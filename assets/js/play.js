@@ -34,6 +34,18 @@ angular.module('myApp')
     });
   };
 
+  $scope.postMessage = function () {
+    $http.get('/index.php?action=api&call=postmsg&message=' + $scope.post.message).then(function (value) {
+      if(value.data && value.data.retour && value.data.retour == 'success'){
+        $('.formsendmsg').css('display','none');
+        $scope.post.message = '';
+        getStatut();
+        getMsg();
+        getInventory();
+      }
+    });
+  };
+
   var getMap = function () {
     $http.get('/index.php?action=api&call=getmap').then(function (value) {
       $scope.persos = value.data.persos;
@@ -95,7 +107,7 @@ angular.module('myApp')
         move('bas');
         break;
       default:
-        console.log('Erreur : Aucune action ne correspond à cette touche');
+        //console.log('Erreur : Aucune action ne correspond à cette touche');
     }
   };
 

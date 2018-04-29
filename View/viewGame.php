@@ -72,8 +72,9 @@ $titre = WEBSITE_TITLE.' -- Accueil';
       </div>
       <div class="formsendmsg" style="display:none;">
         Appuyer sur Entr&eacute;e pour envoyer un message
-        <form>
-          <textarea name="message" id="msgsendconsole"></textarea>
+        <form ng-submit="postMessage()">
+          <textarea name="message" ng-model="post.message" id="msgsendconsole"></textarea>
+          <input type="submit" value="envoyer" />
         </form>
       </div>
     </fieldset>
