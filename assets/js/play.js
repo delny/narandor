@@ -1,7 +1,8 @@
 angular.module('myApp')
-  .controller('playCtrl',function ($scope,$http) {
+  .controller('playCtrl',function ($scope,$http,$element) {
 
   console.log('init play controller');
+  $scope.chatopening = false;
   $(document).ready(function () {
     getAll();
   });
@@ -106,6 +107,33 @@ angular.module('myApp')
       case 40:
         move('bas');
         break;
+      case 84: // touche t : ouvre le champ texte pour la sessagerie
+        if (!$scope.chatopening)
+        {
+          $scope.chatopening = true;
+          $(function () {
+            $("#msgsendconsole").focus();
+          });
+        }
+        else
+        {
+          $scope.chatopening = false;
+          $("#msgsendconsole").val('');
+          $(function () {
+            $(".corps").focus();
+          });
+        }
+        break;
+      case 27:
+        if($scope.chatopening)
+        {
+          $scope.chatopening = false;
+          $("#msgsendconsole").val('');
+          $(function () {
+            $(".corps").focus();
+          });
+        }
+        break;
       default:
         //console.log('Erreur : Aucune action ne correspond à cette touche');
     }
@@ -131,6 +159,6 @@ angular.module('myApp')
         $("#cantmove").get(0).play();
       }
     });
-  }
+  };
 
 });

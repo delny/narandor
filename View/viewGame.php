@@ -4,10 +4,10 @@ $titre = WEBSITE_TITLE.' -- Accueil';
 
 <?php ob_start(); ?>
 
-  <body onkeydown="setTimeout(function(){sendaction(event);}, 200);">
+  <body>
 
   <div style="color:#3782F2;position:absolute;top:0px;left:0px;" ><a href="../index.php">Anthonydelgado.fr ©</a></div>
-  <h1>Narandor (version 0.7)</h1>
+  <h1>Narandor (version 0.8)</h1>
   <div class="corps" ng-controller="playCtrl" ng-keydown="action($event)" tabindex="0">
     <fieldset class="dashboard">
       <legend>Tableau de bord</legend>
@@ -70,7 +70,7 @@ $titre = WEBSITE_TITLE.' -- Accueil';
           </div>
         </div>
       </div>
-      <div class="formsendmsg" style="display:none;">
+      <div class="formsendmsg" ng-show="chatopening">
         Appuyer sur Entr&eacute;e pour envoyer un message
         <form ng-submit="postMessage()">
           <textarea name="message" ng-model="post.message" id="msgsendconsole"></textarea>
@@ -79,7 +79,6 @@ $titre = WEBSITE_TITLE.' -- Accueil';
       </div>
     </fieldset>
   </div>
-  <script src="assets/js/app.js"></script>
   <audio id="cantmove" src="assets/audio/bip.mp3"></audio>
   <audio id="porte" src="assets/audio/porte.mp3"></audio>
   </body>
