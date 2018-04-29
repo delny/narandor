@@ -14,7 +14,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 </html>
+<body>
+<div style="color:#3782F2;position:absolute;top:0px;left:0px;" ><a href="../index.php">Anthonydelgado.fr ©</a></div>
 <?php echo $contenu; ?>
+</body>
 <!-- angular vendor files -->
 <script src="assets/js/bower_components/angular/angular.js"></script>
 <script src="assets/js/bower_components/angular-route/angular-route.js"></script>

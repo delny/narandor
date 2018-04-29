@@ -4,9 +4,6 @@ $titre = WEBSITE_TITLE.' -- Accueil';
 
 <?php ob_start(); ?>
 
-  <body>
-
-  <div style="color:#3782F2;position:absolute;top:0px;left:0px;" ><a href="../index.php">Anthonydelgado.fr ©</a></div>
   <h1>Narandor (version 0.8)</h1>
   <div class="corps" ng-controller="playCtrl" ng-keydown="action($event)" tabindex="0">
     <fieldset class="dashboard">
@@ -81,7 +78,6 @@ $titre = WEBSITE_TITLE.' -- Accueil';
   </div>
   <audio id="cantmove" src="assets/audio/bip.mp3"></audio>
   <audio id="porte" src="assets/audio/porte.mp3"></audio>
-  </body>
 
 <?php $contenu = ob_get_clean(); ?>
 

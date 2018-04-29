@@ -1,5 +1,5 @@
 angular.module('myApp')
-  .controller('playCtrl',function ($scope,$http,$element) {
+  .controller('playCtrl',function ($scope,$http) {
 
   console.log('init play controller');
   $scope.chatopening = false;
