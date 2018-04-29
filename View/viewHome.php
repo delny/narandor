@@ -7,10 +7,12 @@ $titre = WEBSITE_TITLE.' -- Accueil';
   <body>
     <div id="corps" >
       <div class="welcome">
-        <h1>Narandor<br /> (version Beta 0.7)</h1>
+        <h1>Narandor<br /> (version Beta 0.8)</h1>
         <h2>Derni&egrave;re mise &agrave; jour : 26 novembre 2016</h2>
         <div><p>Se connecter / Cr&eacute;er un compte</p></div>
-        <?php if (isset($erreur)) {print_r($erreur);} ?>
+        <?php if (!empty($erreur)): ?>
+          <div class="error"><?php print $erreur ?></div>
+        <?php endif; ?>
         <div class="formlogin">
           <form method="post" action="index.php">
             <input type="text" name="login" placeholder="Login"/>

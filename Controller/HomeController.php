@@ -8,6 +8,7 @@ class HomeController extends Controller
       $messageManager = new MessageManager();
       $userManager = new UserManager();
       $perso = $userManager->getUser();
+      $erreur = null;
       if(!empty($perso))
       {
         header('Location: index.php?action=game');
@@ -71,6 +72,8 @@ class HomeController extends Controller
           exit;
         }
       }
-      $this->renderView('home',[]);
+      $this->renderView('home',[
+        'erreur' => $erreur,
+      ]);
     }
 }
