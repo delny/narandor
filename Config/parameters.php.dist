@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Website Parameters
+ */
+
+/*Website Title*/
+define("WEBSITE_TITLE","Narandor");
+
+/**
+ * Website Database Parameters
+ */
+
+/*Compatible only with php 7 or higher*/
+define("DB",[
+    "DB_HOST_NAME" => "YOUR_HOST_NAME",
+    "DB_USER_NAME" => "YOUR_USER_NAME",
+    "DB_PASSWORD" => "YOUR_PASSWORD",
+    "DB_DATABASE" => "YOUR_DATABASE"
+]);
