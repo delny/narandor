@@ -1,4 +1,4 @@
 .idea
-Model/Manager/DatabaseManager.php
+Config/parameters.php
 tmp/*
 assets/img/*

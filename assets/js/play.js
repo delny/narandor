@@ -36,15 +36,17 @@ angular.module('myApp')
   };
 
   $scope.postMessage = function () {
-    $http.get('/index.php?action=api&call=postmsg&message=' + $scope.post.message).then(function (value) {
-      if(value.data && value.data.retour && value.data.retour == 'success'){
-        $('.formsendmsg').css('display','none');
-        $scope.post.message = '';
-        getStatut();
-        getMsg();
-        getInventory();
-      }
-    });
+    if ($scope.post && $scope.post.message) {
+      $http.get('/index.php?action=api&call=postmsg&message=' + $scope.post.message).then(function (value) {
+        if(value.data && value.data.retour && value.data.retour == 'success'){
+          $scope.chatopening = false;
+          $scope.post.message = '';
+          getStatut();
+          getMsg();
+          getInventory();
+        }
+      });
+    }
   };
 
   var getMap = function () {
@@ -88,7 +90,21 @@ angular.module('myApp')
   
   /* Gestion actions/déplacements */
   $scope.action = function (event) {
-    switch (event.keyCode){
+    console.log($scope.chatopening);
+    if ($scope.chatopening) {
+      switch (event.keyCode) {
+        case 27:
+          $scope.chatopening = false;
+          $("#msgsendconsole").val('');
+          $(function () {
+            $(".corps").focus();
+          });
+        break;
+      }
+      return;
+    }
+
+    switch (event.keyCode) {
       case 13:
         act('hit');
         break;
@@ -108,21 +124,10 @@ angular.module('myApp')
         move('bas');
         break;
       case 84: // touche t : ouvre le champ texte pour la sessagerie
-        if (!$scope.chatopening)
-        {
-          $scope.chatopening = true;
-          $(function () {
-            $("#msgsendconsole").focus();
-          });
-        }
-        else
-        {
-          $scope.chatopening = false;
-          $("#msgsendconsole").val('');
-          $(function () {
-            $(".corps").focus();
-          });
-        }
+        $scope.chatopening = true;
+        $(function () {
+          $("#msgsendconsole").focus();
+        });
         break;
       case 27:
         if($scope.chatopening)

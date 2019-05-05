@@ -307,16 +307,16 @@ Class PersoManager extends DatabaseManager
     }
     
     if($perso->getDirection() == 'haut' && $perso->getLocalisationX()==25 && $perso->getLocalisationY()==55){
-	    return true;
+	    return TRUE;
     }
     elseif ($perso->getDirection() == 'gauche' && $perso->getLocalisationX()==26 && $perso->getLocalisationY()==54){
-	    return true;
+	    return TRUE;
     }
     elseif ($perso->getDirection() == 'droite' && $perso->getLocalisationX()==24 && $perso->getLocalisationY()==54){
-	    return true;
+	    return TRUE;
     }
     elseif ($perso->getDirection() == 'bas' && $perso->getLocalisationX()==25 && $perso->getLocalisationY()==53){
-	    return true;
+	    return TRUE;
     }
     
     return false;
@@ -334,13 +334,13 @@ Class PersoManager extends DatabaseManager
     }
     
     if($perso->getDirection() == 'haut' && $perso->getLocalisationX()==44 && $perso->getLocalisationY()==24){
-      return true;
+      return TRUE;
     }
     elseif ($perso->getDirection() == 'gauche' && $perso->getLocalisationX()==45 && $perso->getLocalisationY()==23){
-      return true;
+      return TRUE;
     }
     elseif ($perso->getDirection() == 'droite' && $perso->getLocalisationX()==43 && $perso->getLocalisationY()==23){
-      return true;
+      return TRUE;
     }
     
     return false;
@@ -448,7 +448,7 @@ Class PersoManager extends DatabaseManager
           fseek($fichier,0);
           fputs($fichier,time());
           fclose($fichier);
-          $regenerermagie = true;
+          $regenerermagie = TRUE;
         }
       }
       else
@@ -457,7 +457,7 @@ Class PersoManager extends DatabaseManager
         $new_fichier = fopen('tmp/magic'.$perso->getId().'.tmp','a+');
         fputs($new_fichier,time());
         fclose($new_fichier);
-        $regenerermagie = true;
+        $regenerermagie = TRUE;
       }
     
       if ($regenerermagie)
