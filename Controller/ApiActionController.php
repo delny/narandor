@@ -1,69 +1,67 @@
 <?php
 
-class ApiActionController
-{
+class ApiActionController {
   private $messageManager;
   private $objectManager;
   private $persoManager;
-  
-  public function __construct()
-  {
+
+  public function __construct() {
     $this->messageManager = new MessageManager();
     $this->objectManager  = new ObjectManager();
     $this->persoManager   = new PersoManager();
   }
-  
+
   /**
    * Porte d'entrée de ce sous-controller
    * @param Perso $perso
    * @return array
    */
-  public function act(Perso $perso){
-    if($perso->getEtat() !='alive'){
+  public function act(Perso $perso) {
+    if ($perso->getEtat() !='alive') {
       return ['erreur' => 'il faut être vivant et réveillé pour agir' ];
     }
     //limitation actions
     $canAct = $this->actLimit($perso);
-    
-    if(!$canAct){
+
+    if (!$canAct) {
       return ['erreur' => 'limite actions atteinte' ];
     }
-    
-    if($cible = $this->persoManager->getadversaire($perso)){
+
+    if ($cible = $this->persoManager->getadversaire($perso)) {
       return $this->interactPlayer($perso,$cible);
     }
-    
-    if($this->persoManager->ispuit($perso)){
+
+    if ($this->persoManager->ispuit($perso)) {
       return $this->well($perso);
     }
-    
-    if($this->persoManager->iscoffre($perso)){
+
+    if ($this->persoManager->iscoffre($perso)) {
       return $this->chest($perso);
     }
-    
-    if($this->persoManager->issage($perso)){
+
+    if ($this->persoManager->issage($perso)) {
       return $this->oldSage($perso);
     }
-    
+
     return ['erreur' => 'action inconnue'];
   }
   
   /**
-   * Intéragir avec un autre joueur
+   * Intéragir avec un autre joueur.
+   * 
    * @param Perso $perso
    * @param Perso $cible
+   * 
    * @return array
    */
-  private function interactPlayer(Perso $perso, Perso $cible){
-    if ($cible->getEtat()!='dead' AND $_GET['act']=='hit')
-    {
+  private function interactPlayer(Perso $perso, Perso $cible) {
+    if ($cible->getEtat()!='dead' AND $_GET['act']=='hit') {
       return $this->hit($perso,$cible);
     }
-    elseif ($_GET['act']=='sleep' AND $perso->getTypeperso()==2 )
-    {
+    elseif ($_GET['act']=='sleep' AND $perso instanceof Magicien ) {
       return $this->sleep($perso,$cible);
     }
-    
+
     return ['erreur' => 'action inconnue'];
   }
   
