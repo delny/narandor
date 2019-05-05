@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: a.delgado
- * Date: 10/11/2017
- * Time: 10:09
- */
 
 $titre = WEBSITE_TITLE.' -- Erreur';
 ?>

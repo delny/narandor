@@ -1,17 +1,20 @@
 <?php
 
-class Application
-{
-    public function run (){
-        /*load autoloader*/
-        require_once('Autoloader.php');
-        Autoloader::register();
+/**
+ * Class Application
+ */
+class Application {
 
-        /*load Configuration*/
-        require ('Config/parameters.php');
+  public function run() {
+    /*load autoloader*/
+    require_once('Autoloader.php');
+    Autoloader::register();
 
-        /*routeRequest*/
-        $router = new Router();
-        $router->routeRequest();
-    }
+    /*load Configuration*/
+    require('Config/parameters.php');
+
+    /*routeRequest*/
+    $router = new Router();
+    $router->routeRequest();
+  }
 }

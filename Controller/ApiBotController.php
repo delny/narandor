@@ -1,7 +1,9 @@
 <?php
 
-class ApiBotController
-{
+/**
+ * Class ApiBotController
+ */
+class ApiBotController {
   //Constantes
   CONST COORD_X_BOT = [0,15,27,67,8,0,0,0,0,0,0,83,81];
   CONST COORD_Y_BOT = [0,15,27,67,8,0,0,0,0,0,0,83,81];
@@ -14,64 +16,62 @@ class ApiBotController
   
   CONST MIN_Y_BOT = [0,36,6,36,7,0,0,0,0,0,0,29,15];
   CONST MAX_Y_BOT = [0,76,23,56,27,0,0,0,0,0,0,38,21];
-  //manager
+
+  // Managers.
   private $botManager;
   private $persoManager;
   private $messageManager;
   
-  public function __construct()
-  {
+  public function __construct() {
     $this->botManager = new BotManager();
     $this->persoManager = new PersoManager();
     $this->messageManager = new MessageManager();
   }
-  
+
   /**
    * Gestion des bots
+   *
    * @param Perso $perso
+   *
    * @return array
    */
-  public function refreshbots(Perso $perso){
+  public function refreshbots(Perso $perso) {
     //gestion des bots agressifs
-    for ($i=1;$i<5;$i++)
-    {
+    for ($i=1;$i<5;$i++) {
       $this->refreshBot($i, true);
     }
     //gestion enfants
-    for ($i=11;$i<13;$i++)
-    {
+    for ($i=11;$i<13;$i++) {
       $this->refreshBot($i, false);
     }
     $data = ['retour' => 'success'];
+
     return $data;
   }
-  
+
   /**
    * Gestion d'un bot selon numéro
    * @param $i
    * @param bool $actif
    */
-  private function refreshBot($i,$actif = false){
+  private function refreshBot($i,$actif = false) {
     $bot = $this->getBot($i);
   
     // s'il est mort on le resucite
-    if ($actif && $bot->getEtat()=='dead' )
-    {
+    if ($actif && $bot->getEtat()=='dead' ) {
       $this->rebornBot($bot,$i);
     }
-    elseif (preg_match('#sleep#',$bot->getEtat()))
-    {
+    elseif (preg_match('#sleep#',$bot->getEtat())) {
       // on attend qu'il se reveille
       echo 'Success';
     }
-    elseif($actif && ($joueur = $this->persoManager->getadversaire($bot))) //il attaque
-    {
+    // Il attaque.
+    elseif($actif && ($joueur = $this->persoManager->getadversaire($bot))) {
       $this->botAttackPlayer($bot,$joueur);
     }
-    elseif ($retour = $this->persoManager->getadversaireacote($bot)) //si quelqun a cote il se tourne vers lui
-    {
-      switch ($retour)
-      {
+    //Si quelqun a cote il se tourne vers lui.
+    elseif ($retour = $this->persoManager->getadversaireacote($bot)) {
+      switch ($retour) {
         case 1 :
           $bot->Setdirection('haut');
           break;
@@ -89,29 +89,24 @@ class ApiBotController
       }
       $this->persoManager->update($bot);
     }
-    else // si personne il se deplace
-    {
-      if ($bot->getLocalisationX()<=self::MIN_X_BOT[$i])
-      {
+    // si personne il se deplace
+    else {
+
+      if ($bot->getLocalisationX()<=self::MIN_X_BOT[$i]) {
         $direction = 'droite';
       }
-      elseif ($bot->getLocalisationX()>=self::MAX_X_BOT[$i])
-      {
+      elseif ($bot->getLocalisationX()>=self::MAX_X_BOT[$i]) {
         $direction = 'gauche';
       }
-      elseif ($bot->getLocalisationY()<=self::MIN_Y_BOT[$i])
-      {
+      elseif ($bot->getLocalisationY()<=self::MIN_Y_BOT[$i]) {
         $direction = 'bas';
       }
-      elseif ($bot->getLocalisationY()>=self::MAX_Y_BOT[$i])
-      {
+      elseif ($bot->getLocalisationY()>=self::MAX_Y_BOT[$i]) {
         $direction = 'haut';
       }
-      else
-      {
+      else {
         $direction_number = rand(1,4);
-        switch ($direction_number)
-        {
+        switch ($direction_number) {
           case 1:
             $direction = 'haut';
             break;
@@ -128,28 +123,28 @@ class ApiBotController
             $direction = 'haut';
         }
       }
-  
-      if ($direction == $bot->getDirection())
-      {
+
+      if ($direction == $bot->getDirection()) {
         $this->persoManager->sedeplacer($bot,$direction);
       }
-      else
-      {
+      else {
         $bot->hydrate(['direction' => $direction]);
       }
-  
+
       $this->persoManager->update($bot);
     }
   }
-  
+
   /**
-   * Obtient/créer le bot suivant son numero
+   * Obtient/créer le bot suivant son numero.
+   *
    * @param $i
+   *
    * @return bool|Bot
    */
-  private function getBot($i){
-    if (!$bot = $this->botManager->getbot('BOT'.$i)) // s'il n existe pas on le creer
-    {
+  private function getBot($i) {
+    // S'il n existe pas on le creer.
+    if (!$bot = $this->botManager->getbot('BOT'.$i)) {
       $niveau = rand(self::MIN_NIVEAU[$i],self::MAX_NIVEAU[$i]);
       $bot = new Bot([
         'nom' => 'BOT'.$i,
@@ -167,18 +162,18 @@ class ApiBotController
       ]);
       $this->persoManager->add($bot);
     }
-    
+
     return $bot;
   }
-  
+
   /**
    * Récussite un bot
+   *
    * @param Bot $bot
    * @param $i
    */
   private function rebornBot(Bot $bot, $i){
-    if (!$this->persoManager->getpersoscarte('C',floor(self::COORD_X_BOT[$i]/10),floor(self::COORD_Y_BOT[$i]/10)))
-    {
+    if (!$this->persoManager->getpersoscarte('C',floor(self::COORD_X_BOT[$i]/10),floor(self::COORD_Y_BOT[$i]/10))) {
       $niveau = rand(self::MIN_NIVEAU[$i],self::MAX_NIVEAU[$i]);
       $bot->hydrate([
         'etat' => 'alive',
@@ -192,23 +187,20 @@ class ApiBotController
       $this->persoManager->update($bot);
     }
   }
-  
+
   /**
    * Un bot attaque un joueur
    * @param Bot $bot
    * @param Perso $player
    */
-  private function botAttackPlayer(Bot $bot, Perso $player){
-    if ($player->getEtat()=='alive')
-    {
+  private function botAttackPlayer(Bot $bot, Perso $player) {
+    if ($player->getEtat()=='alive') {
       $retour = $bot->frapper($player);
     }
-    else
-    {
+    else {
       $retour = 4;
     }
-    switch ($retour)
-    {
+    switch ($retour) {
       case 0 :
         $message_cible = $bot->getNom().' a tent&eacute; de vous frapper ... ';
         $this->messageManager->message_console($player,$message_cible);
